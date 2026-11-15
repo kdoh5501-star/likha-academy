@@ -18,6 +18,81 @@
   function WS(n) { return "M" + M(n) + " W" + ((n - 1) % 4 + 1); }
   function titles(w) { var p = w.title.split(/\.\s+/); return { ko: p[0].replace(/\.$/, ""), vid: (p[1] || p[0]).replace(/\.$/, "") }; }
 
+  /* ---------- language: English / Tagalog / Korean ---------- */
+  var I18N = window.I18N || { tl: {}, ko: {} };
+  function lang() { return load("lk:lang", "en"); }
+  var PAT = [
+    [/^Month (\d) · Week (\d)$/, { tl: "Buwan $1 · Linggo $2", ko: "$1개월차 · $2주차" }],
+    [/^Next class · Month (\d) · Week (\d)$/, { tl: "Susunod na klase · Buwan $1 · Linggo $2", ko: "다음 수업 · $1개월차 $2주차" }],
+    [/^(\d+) words$/, { tl: "$1 salita", ko: "$1단어" }],
+    [/^In (\d+) days$/, { tl: "$1 araw pa", ko: "$1일 후" }],
+    [/^(M\d W\d) · (\d+)\/(\d+) learned$/, { tl: "$1 · $2/$3 natutunan", ko: "$1 · $2/$3 외움" }],
+    [/^(\d+) of (\d+) words learned\. Tap to turn, then say it\.$/, { tl: "$1 sa $2 salita ang natutunan. Pindutin para baligtarin, tapos sabihin.", ko: "$2단어 중 $1개 외움. 눌러서 뒤집고 말해 보세요." }],
+    [/^Month (\d) · Week (\d) · (\d+) of (\d+) learned$/, { tl: "Buwan $1 · Linggo $2 · $3 sa $4 natutunan", ko: "$1개월차 $2주차 · $4개 중 $3개 외움" }],
+    [/^(\d+) of (\d+) words learned this week$/, { tl: "$1 sa $2 salita ang natutunan ngayong linggo", ko: "이번 주 $2단어 중 $1개 외움" }],
+    [/^(M\d W\d) quiz$/, { tl: "$1 quiz", ko: "$1 퀴즈" }],
+    [/^(\d+) video lessons?$/, { tl: "$1 video lesson", ko: "영상 강의 $1개" }],
+    [/^(\d+)% correct(?: · (\d+) Korean questions today)?$/, { tl: function (m) { return m[1] + "% tama" + (m[2] ? " · " + m[2] + " Korean na tanong ngayon" : ""); }, ko: function (m) { return "정답률 " + m[1] + "%" + (m[2] ? " · 오늘 " + m[2] + "문제" : ""); } }],
+    [/^(Sat|Tue) · (in person|online)( · .+)?$/, { tl: function (m) { return (m[1] === "Sat" ? "Sabado" : "Martes") + " · " + (m[2] === "online" ? "online" : "personal") + (m[3] || ""); }, ko: function (m) { return (m[1] === "Sat" ? "토" : "화") + " · " + (m[2] === "online" ? "온라인" : "현장") + (m[3] || ""); } }],
+    [/^This week: (.+) ›$/, { tl: function (m) { return "Ngayong linggo: " + tr(m[1]) + " ›"; }, ko: function (m) { return "이번 주: " + tr(m[1]) + " ›"; } }],
+    [/^Month (\d): (.+)$/, { tl: function (m) { return "Buwan " + m[1] + ": " + tr(m[2]); }, ko: function (m) { return m[1] + "개월차: " + tr(m[2]); } }],
+    [/^Answer: (.+)$/, { tl: function (m) { return "Sagot: " + tr(m[1]); }, ko: function (m) { return "정답: " + tr(m[1]); } }],
+    [/^Homework · (.+)$/, { tl: function (m) { return "Homework · " + tr(m[1]); }, ko: function (m) { return "숙제 · " + tr(m[1]); } }],
+    [/^(Month \d · Week \d): (.+)$/, { tl: function (m) { return tr(m[1]) + ": " + tr(m[2]); }, ko: function (m) { return tr(m[1]) + ": " + tr(m[2]); } }],
+    [/^(Video quiz|Korean quiz|Flashcards) · (up to )?(.+)$/, { tl: function (m) { return ({ "Video quiz": "Video quiz", "Korean quiz": "Korean quiz", "Flashcards": "Flashcards" })[m[1]] + " · " + (m[2] ? "hanggang " : "") + tr(m[3]); }, ko: function (m) { return ({ "Video quiz": "영상 퀴즈", "Korean quiz": "한국어 퀴즈", "Flashcards": "플래시카드" })[m[1]] + " · " + tr(m[3]) + (m[2] ? "까지" : ""); } }],
+    [/^Today's 50 · up to (.+)$/, { tl: function (m) { return "50 ngayong araw · hanggang " + m[1]; }, ko: function (m) { return "오늘의 50문제 · " + m[1] + "까지"; } }],
+    [/^Practice my (\d+) mistakes$/, { tl: "I-practice ang $1 mali ko", ko: "오답 $1개 연습" }],
+    [/^of (\d+) lessons marked done$/, { tl: "sa $1 lesson ang tapos na", ko: "/ $1개 강의 완료" }],
+    [/^Lesson (\d+)$/, { tl: "Lesson $1", ko: "강의 $1" }],
+    [/^(\d+) to (\d+) min$/, { tl: "$1 hanggang $2 min", ko: "$1~$2분" }],
+    [/^(\d+) min$/, { tl: "$1 min", ko: "$1분" }],
+    [/^((?:Mon|Tue|Wed|Thu|Fri|Sat|Sun), [A-Z][a-z]{2} \d+(?: · 8:00 AM)?) · (.+)$/, { tl: function (m) { return m[1] + " · " + tr(m[2]); }, ko: function (m) { return m[1] + " · " + tr(m[2]); } }]
+  ];
+  function tr(s) {
+    var L = lang(); if (L === "en" || !s) return s;
+    var d = I18N[L] || {}; if (Object.prototype.hasOwnProperty.call(d, s)) return d[s];
+    for (var i = 0; i < PAT.length; i++) {
+      var m = s.match(PAT[i][0]); if (!m) continue;
+      var r = PAT[i][1][L]; if (!r) return s;
+      return typeof r === "function" ? r(m) : s.replace(PAT[i][0], r);
+    }
+    return s;
+  }
+  function trNode(root) {
+    if (lang() === "en" || !root) return;
+    if (root.nodeType === 3) { trText(root); return; }
+    if (root.nodeType !== 1) return;
+    var w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT), n, list = [];
+    while ((n = w.nextNode())) list.push(n);
+    list.forEach(trText);
+    var els = root.querySelectorAll ? [root].concat([].slice.call(root.querySelectorAll("[placeholder],[aria-label]"))) : [];
+    els.forEach(function (e) { ["placeholder", "aria-label"].forEach(function (a) { var v = e.getAttribute && e.getAttribute(a); if (v) { var t = tr(v.trim()); if (t !== v.trim()) e.setAttribute(a, t); } }); });
+  }
+  function trText(n) {
+    if (!n.parentElement || n.parentElement.closest("script,style,[data-notr]")) return;
+    var v = n.nodeValue, t = v.trim(); if (!t || !/[A-Za-z]/.test(t)) return;
+    var r = tr(t); if (r !== t) n.nodeValue = v.replace(t, r);
+  }
+  /* header and tab bar are static: keep the English and translate a copy */
+  function chrome() {
+    document.querySelectorAll(".hdr .hnav a, .tabbar a, .logo .sub").forEach(function (a) {
+      [].slice.call(a.childNodes).forEach(function (n) { if (n.nodeType === 3 && n.nodeValue.trim()) { if (n._en == null) n._en = n.nodeValue; n.nodeValue = tr(n._en.trim()); } });
+    });
+    document.documentElement.lang = { en: "en", tl: "tl", ko: "ko" }[lang()];
+    document.querySelectorAll("#langsw button").forEach(function (b) { b.classList.toggle("on", b.getAttribute("data-l") === lang()); b.setAttribute("aria-pressed", b.getAttribute("data-l") === lang()); });
+  }
+  function setLang(l) { save("lk:lang", l); save("lk:langset", true); var o = document.getElementById("langpick"); if (o) o.remove(); chrome(); route(); }
+  document.addEventListener("click", function (e) { var b = e.target.closest("[data-l]"); if (b) setLang(b.getAttribute("data-l")); });
+  function firstPick() {
+    if (load("lk:langset", false)) return;
+    var o = document.createElement("div"); o.id = "langpick"; o.setAttribute("role", "dialog"); o.setAttribute("aria-modal", "true"); o.setAttribute("data-notr", "");
+    o.innerHTML = '<div class="lpbox"><p class="lpt">Choose your language<br><span>Piliin ang wika · 언어를 선택하세요</span></p>' +
+      '<button data-l="tl"><b>Tagalog</b><span>Filipino</span></button><button data-l="en"><b>English</b><span>English</span></button><button data-l="ko"><b>한국어</b><span>Korean</span></button>' +
+      '<p class="lpn">You can change it any time at the top of the page.</p></div>';
+    document.body.appendChild(o);
+  }
+  new MutationObserver(function (ms) { if (lang() === "en") return; ms.forEach(function (m) { [].forEach.call(m.addedNodes, function (n) { trNode(n); }); }); }).observe(app, { childList: true, subtree: true });
+
   /* ---------- speech ---------- */
   var voice = null, canSpeak = "speechSynthesis" in window, voicesChecked = false;
   function pickVoice() {
@@ -420,7 +495,7 @@
     q.addEventListener("input", function () {
       var v = q.value.trim().toLowerCase();
       if (v.length < 1) { out.innerHTML = ""; return; }
-      var r = list.filter(function (i) { return i.ko.indexOf(v) >= 0 || i.en.toLowerCase().indexOf(v) >= 0 || i.rom.toLowerCase().replace(/-/g, "").indexOf(v.replace(/-/g, "")) >= 0; }).slice(0, 30);
+      var r = list.filter(function (i) { return i.ko.indexOf(v) >= 0 || i.en.toLowerCase().indexOf(v) >= 0 || tr(i.en).toLowerCase().indexOf(v) >= 0 || i.rom.toLowerCase().replace(/-/g, "").indexOf(v.replace(/-/g, "")) >= 0; }).slice(0, 30);
       out.innerHTML = r.length ? '<ul class="words card">' + r.map(function (i) { return '<li><button data-say="' + esc(i.ko) + '"><span class="wk"><span class="ko">' + esc(i.ko) + '</span><span class="rm">' + esc(i.rom) + '</span></span><span class="en">' + esc(i.en) + ' <small class="chip">' + WS(i.w) + "</small></span>" + SPK + "</button></li>"; }).join("") + "</ul>" : '<p class="muted sm">No words found.</p>';
     });
   }
@@ -524,10 +599,10 @@
     else if (h === "#/quiz/ko/review") { document.body.classList.add("inquiz"); quiz("ko", "review", 0); setNav("quiz"); }
     else if ((m = h.match(/^#\/quiz\/(ko|vid)(?:\/(\d+)(\/only)?)?$/))) { var n = m[2] && week(+m[2]) ? +m[2] : cur(); document.body.classList.add("inquiz"); quiz(m[1], m[3] ? "only" : "daily", n); setNav(m[1] === "ko" ? "quiz" : "vid"); }
     else { home(); setNav("home"); }
-    bindAfter();
+    bindAfter(); chrome(); trNode(app);
     window.scrollTo(0, 0);
     app.focus({ preventScroll: true });
   }
   window.addEventListener("hashchange", route);
-  route();
+  route(); firstPick();
 })();
