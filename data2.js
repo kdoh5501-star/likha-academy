@@ -10,7 +10,8 @@
     { n: 3, weeks: [9, 10, 11, 12], name: "Month 3: Exam and client ready", ko: "Level 2 grammar, mock tests for TOPIK I and EPS-TOPIK, video-industry Korean. Aim: TOPIK I level 2.", vid: "Thumbnails, long-form, AI tools, speed editing and a 3-video portfolio." }
   ];
 
-  C.schedule = "Tuesday online and Saturday in person. Each day is 6 hours: Korean 3 hours, then video 3 hours.";
+  C.schedule = "Saturday in person at 8:00, then Tuesday online. Each day is 6 hours: Korean 3 hours, then video 3 hours. Month 1 starts Saturday, November 21.";
+  C.start = new Date(2026, 10, 21);
   C.koPattern = [
     ["30 min", "Daily quiz review: last class's words and wrong answers"],
     ["45 min", "New words: listen, repeat, write"],
@@ -413,5 +414,11 @@
   C.weeks.forEach(function (w) {
     w.phase = w.n <= 4 ? 1 : w.n <= 8 ? 2 : 3;
     if (w.vid && w.vid.tue && w.n <= 4) w.vid.tue.mins = 180;
+    // Classes start on Saturday: the first lesson of each week is the in-person Saturday class.
+    var k = w.ko.tue; w.ko.tue = w.ko.sat; w.ko.sat = k;
+    var v = w.vid.tue; w.vid.tue = w.vid.sat; w.vid.sat = v;
+    w.vid.sat.title = w.vid.sat.title.replace(/^Tuesday online: /, "Saturday in person: ");
+    w.vid.tue.title = w.vid.tue.title.replace(/^Saturday in person: /, "Tuesday online: ");
+    if (w.n === 1) { w.ko.sat = "Orientation 8:00 to 10:00, then Korean 10:00 to 12:00: " + w.ko.sat; w.vid.sat.title = "Saturday in person: 12:00 to 2:00 · meet your editing app"; }
   });
 })();

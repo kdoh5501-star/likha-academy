@@ -12,8 +12,8 @@ window.COURSE = {
       test: "Read 20 syllables aloud without help.",
       sat: { ot: true, ko: "8:00 to 10:00 is orientation, then Korean 10:00 to 12:00", vid: "Video 12:00 to 2:00" },
       ko: {
-        tue: "Vowels and the 14 basic consonants (1 hour)",
-        sat: "Compound vowels, double consonants, final consonants and reading drills (2 hours)",
+        tue: "Vowels and the 14 basic consonants",
+        sat: "Compound vowels, double consonants, final consonants and reading drills",
         sections: [
           { title: "Basic vowels", note: "Tap any letter to hear it. Korean vowels stay the same sound every time.", type: "tiles", items: [
             ["ㅏ", "a", "ah, like father"], ["ㅑ", "ya", "yah"], ["ㅓ", "eo", "uh, like cup"], ["ㅕ", "yeo", "yuh"],
@@ -71,7 +71,7 @@ window.COURSE = {
           "Practice moving along the timeline with your fingers and pinching to zoom in."
         ]},
         sat: { title: "Saturday in person: your first edit", mins: 120, blocks: [
-          { t: "0 to 15", name: "Show your Tuesday project", steps: ["Show your project to a classmate and say one thing you want to fix."] },
+          { t: "0 to 15", name: "Show your Saturday project", steps: ["Show your project to a classmate and say one thing you want to fix."] },
           { t: "15 to 40", name: "Teacher demo", steps: ["Trim the start and end of a clip.", "Split a clip at the playhead and delete the middle.", "Undo a mistake."] },
           { t: "40 to 70", name: "Guided practice", steps: ["Cut each of your 3 clips down to its best 3 to 5 seconds.", "Remove every black gap between clips."] },
           { t: "70 to 80", name: "Break", steps: [] },
@@ -116,8 +116,8 @@ window.COURSE = {
       test: "Introduce yourself in Korean in 30 seconds.",
       sat: { ko: "Korean 8:00 to 11:00", vid: "Video 11:00 to 2:00" },
       ko: {
-        tue: "Numbers 1 to 100 and the polite ending -ㅂ니다 / -습니다 (1 hour)",
-        sat: "Self-introduction, nationality and job words, 24 work nouns (3 hours)",
+        tue: "Numbers 1 to 100 and the polite ending -ㅂ니다 / -습니다",
+        sat: "Self-introduction, nationality and job words, 24 work nouns",
         sections: [
           { title: "Numbers (Sino-Korean)", note: "Use these for dates, prices, phone numbers and minutes.", type: "words", items: [
             ["일", "il", "1"], ["이", "i", "2"], ["삼", "sam", "3"], ["사", "sa", "4"], ["오", "o", "5"],
@@ -200,8 +200,8 @@ window.COURSE = {
       test: "Answer a short client voice message in Korean.",
       sat: { ko: "Korean 8:00 to 11:00", vid: "Video 11:00 to 2:00" },
       ko: {
-        tue: "Days, dates, time and 주세요 (1 hour)",
-        sat: "Requests and deadlines, work verbs, prices in won (3 hours)",
+        tue: "Days, dates, time and 주세요",
+        sat: "Requests and deadlines, work verbs, prices in won",
         sections: [
           { title: "Days and time", type: "words", items: [
             ["오늘", "oneul", "today"], ["내일", "naeil", "tomorrow"], ["어제", "eoje", "yesterday"], ["이번 주", "ibeon ju", "this week"],
@@ -284,8 +284,8 @@ window.COURSE = {
       test: "Written client chat and 20 phrases read aloud.",
       sat: { ko: "Korean 8:00 to 11:00", vid: "Video 11:00 to 2:00" },
       ko: {
-        tue: "Review and read the chat templates aloud (1 hour)",
-        sat: "Client chat scripts for 6 situations, role-play with the interpreter (3 hours)",
+        tue: "Review and read the chat templates aloud",
+        sat: "Client chat scripts for 6 situations, role-play with the interpreter",
         sections: [
           { title: "Question words", type: "words", items: [
             ["무엇", "mueot", "what"], ["누구", "nugu", "who"], ["어디", "eodi", "where"], ["왜", "wae", "why"], ["어떻게", "eotteoke", "how"]

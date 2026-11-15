@@ -267,3 +267,5 @@ main { padding-top: 16px; padding-bottom: 40px; outline: none; }
 .path li { display: flex; gap: 10px; align-items: baseline; padding: 10px 14px; background: var(--bg-2); border-radius: var(--r); font-size: 14px; }
 .path b { min-width: 92px; color: var(--brand); }
 .path li.acc { background: var(--accent); color: #fff; } .path li.acc b { color: #fff; }
+
+.wdate { margin-left: 8px; font-size: 13px; font-weight: 700; color: var(--accent); }

@@ -14,6 +14,7 @@
   function cur() { return load("lk:cur", 1); }
   function M(n) { return Math.ceil(n / 4); }
   function WL(n) { return "Month " + M(n) + " · Week " + ((n - 1) % 4 + 1); }
+  function dates(n) { if (n > 4 || !C.start) return ""; var s = new Date(C.start); s.setDate(s.getDate() + 7 * (n - 1)); var t = new Date(s); t.setDate(t.getDate() + 3); var f = function (d) { return d.toLocaleDateString("en-US", { month: "short", day: "numeric" }); }; return "Sat " + f(s) + " · Tue " + f(t); }
   function WS(n) { return "M" + M(n) + " W" + ((n - 1) % 4 + 1); }
   function titles(w) { var p = w.title.split(/\.\s+/); return { ko: p[0].replace(/\.$/, ""), vid: (p[1] || p[0]).replace(/\.$/, "") }; }
 
@@ -87,7 +88,7 @@
     var lessons = 0; Object.keys(VL).forEach(function (k) { lessons += VL[k].length; });
     app.innerHTML =
       '<section class="hero"><p class="eyebrow">Free · three 1-month courses</p><h1>Learn Korean and video editing on your phone</h1>' +
-      '<p class="lead">Korean and video editing, taught together. Each month is a complete 4-week course: Tuesday online and Saturday in person. Finish Month 1, then go on to Month 2 and Month 3.</p>' + weekPick() + "</section>" +
+      '<p class="lead">Korean and video editing, taught together. Each month is a complete 4-week course: Saturday in person at 8:00, then Tuesday online. Month 1 starts Saturday, November 21. Finish Month 1, then go on to Month 2 and Month 3.</p>' + weekPick() + "</section>" +
       '<a class="otbanner card" href="#/ot"><span class="otdot">OT</span><span><b>Start here: Orientation</b><span class="sm muted">Why Korean, where it can take you, how the course works</span></span><span class="arr">›</span></a>' +
       '<div class="courses">' +
       '<a class="course ko" href="#/ko"><span class="cbig" aria-hidden="true">한</span><span class="ctag">Course 1</span><h2>Korean</h2><p>From Hangul to TOPIK I and EPS-TOPIK level. Tap any word to hear it.</p>' +
@@ -112,7 +113,7 @@
       '<section class="sec"><h2>Pay in Korea, 2026</h2><div class="otgrid two"><div class="card otn"><p class="n">₩10,320</p><p class="sm muted">Minimum pay per hour</p></div><div class="card otn"><p class="n">₩2,156,880</p><p class="sm muted">Minimum pay per month, full time</p></div></div><p class="sm muted" style="margin-top:8px">The same minimum applies to foreign workers. Most jobs need Korean.</p></section>' +
       '<section class="sec"><h2>Start earning from home on LIKHA</h2><div class="otgrid two"><div class="card otn"><p class="n">₱500</p><p class="sm muted">per short video</p></div><div class="card otn"><p class="n">₱2,500</p><p class="sm muted">per 10-minute video</p></div></div><p class="sm muted" style="margin-top:8px">Example: 2 short videos a day for 20 days = ₱20,000 a month. Better Korean and better edits mean more jobs.</p></section>' +
       '<section class="sec"><h2>Your path</h2><ol class="path"><li><b>Month 1</b> Basics</li><li><b>Month 2</b> Everyday and workplace Korean</li><li><b>Month 3</b> Exam and client ready</li><li><b>LIKHA</b> Paid freelance work</li><li><b>Korean test</b> TOPIK or EPS-TOPIK</li><li class="acc"><b>Korea</b> Training and work</li></ol><p class="sm muted">Each month ends with a test. Pass it to go on to the next month.</p></section>' +
-      '<section class="sec"><h2>How each week works</h2><div class="days"><div><b>Tuesday · online</b><span>Korean 3 hours, then video 3 hours. Watch live on YouTube.</span></div><div><b>Saturday · in person</b><span>8:00 to 11:00 Korean, 11:00 to 2:00 video. Up to 10 students.</span></div></div></section>' +
+      '<section class="sec"><h2>How each week works</h2><div class="days"><div><b>Saturday · in person</b><span>8:00 to 11:00 Korean, 11:00 to 2:00 video. Up to 10 students. First class: Saturday, November 21 (orientation 8:00 to 10:00).</span></div><div><b>Tuesday · online</b><span>Korean 3 hours, then video 3 hours. Watch live on YouTube.</span></div></div></section>' +
       '<section class="sec"><h2>Bring every class</h2><ul class="plain"><li>Your phone, charged, with CapCut installed</li><li>Earphones, a notebook and a pen</li><li>Your homework sheets</li></ul></section>' +
       '<section class="sec"><h2>Class rules</h2><ul class="plain"><li>Come on time. Tell us if you will miss a class.</li><li>Practice every day, even 20 minutes. Do the 50 quiz.</li><li>Mistakes are normal. Ask questions and help each other.</li><li>Use only your own clips or free footage.</li></ul></section>' +
       '<div class="endcta card"><div><b>Ready?</b><p class="sm muted">Start with Month 1, Week 1.</p></div><a class="btn btn-accent" href="#/ko/1">Start Korean</a></div>';
@@ -133,7 +134,7 @@
   function koWeek(w) {
     var t = titles(w), h = crumbs([["Home", "#/"], ["Korean", "#/ko"], [WL(w.n)]]);
     h += '<header class="whead"><span class="wbadge">' + WL(w.n) + '</span><h1>' + esc(t.ko) + '</h1><p class="lead">' + esc(w.goalKo) + '</p>' +
-      '<div class="days"><div><b>Tue · online</b><span>' + esc(w.ko.tue) + '</span></div><div><b>Sat · in person</b><span>' + esc(w.ko.sat) + "</span></div></div>" +
+      '<div class="days"><div><b>Sat · in person' + (dates(w.n) ? " · " + dates(w.n).split(" · ")[0].slice(4) : "") + '</b><span>' + esc(w.ko.sat) + '</span></div><div><b>Tue · online' + (dates(w.n) ? " · " + dates(w.n).split(" · ")[1].slice(4) : "") + '</b><span>' + esc(w.ko.tue) + "</span></div></div>" +
       '<p class="sm muted">Week check: ' + esc(w.test) + "</p>" + pattern(C.koPattern, "How each 3-hour Korean class runs") + "</header>";
     h += '<div id="voicenote">' + voiceNote() + "</div><p class=\"hint\">" + SPK + " Tap any word or sentence to hear it.</p>";
     if (w.ko.grammar) {
@@ -194,10 +195,12 @@
     if (refs.length) h += '<section class="sec"><h2>Examples and free footage</h2><ul class="links">' + refs.map(function (l) {
       return '<li><a href="' + esc(l[2]) + '" target="_blank" rel="noopener"><span class="chip ' + (l[0] === "Footage" ? "ok" : "") + '">' + (l[0] === "Footage" ? "Free footage" : "Examples") + "</span>" + esc(l[1]) + "<span>›</span></a></li>";
     }).join("") + '</ul><p class="muted sm">Practice only with free footage or your own clips. Do not download other people\'s YouTube videos.</p></section>';
-    h += '<section class="sec"><h2>In class</h2><div class="cls"><div class="card"><h3>Tue · online</h3><p class="sm muted">' + esc(v.tue.title.replace(/^Tuesday online: /, "")) + '</p><ol class="ol">' + v.tue.steps.map(function (s) { return "<li>" + esc(s) + "</li>"; }).join("") + "</ol></div>";
-    h += '<div class="card"><h3>Sat · in person</h3><p class="sm muted">' + esc(v.sat.title.replace(/^Saturday in person: /, "")) + "</p>";
+    h += '<section class="sec"><h2>In class</h2><div class="cls"><div class="card"><h3>Sat · in person' + (dates(w.n) ? " · " + dates(w.n).split(" · ")[0].slice(4) : "") + '</h3><p class="sm muted">' + esc(v.sat.title.replace(/^Saturday in person[^:]*: /, "")) + "</p>";
     if (v.sat.blocks) h += '<ol class="tl">' + v.sat.blocks.map(function (b) { return '<li><span class="tm">' + esc(b.t) + " min</span><b>" + esc(b.name) + "</b>" + (b.steps.length ? "<ul>" + b.steps.map(function (s) { return "<li>" + esc(s) + "</li>"; }).join("") + "</ul>" : "") + "</li>"; }).join("") + "</ol>";
     else h += '<ol class="ol">' + v.sat.steps.map(function (s) { return "<li>" + esc(s) + "</li>"; }).join("") + "</ol>";
+    h += '</div><div class="card"><h3>Tue · online' + (dates(w.n) ? " · " + dates(w.n).split(" · ")[1].slice(4) : "") + '</h3><p class="sm muted">' + esc(v.tue.title.replace(/^Tuesday online: /, "")) + "</p>";
+    if (v.tue.blocks) h += '<ol class="tl">' + v.tue.blocks.map(function (b) { return '<li><span class="tm">' + esc(b.t) + " min</span><b>" + esc(b.name) + "</b>" + (b.steps.length ? "<ul>" + b.steps.map(function (s) { return "<li>" + esc(s) + "</li>"; }).join("") + "</ul>" : "") + "</li>"; }).join("") + "</ol>";
+    else h += '<ol class="ol">' + v.tue.steps.map(function (s) { return "<li>" + esc(s) + "</li>"; }).join("") + "</ol>";
     h += "</div></div></section>";
     h += '<section class="sec"><div class="card deliver"><h2>' + esc(v.deliver.title) + '</h2><p class="muted sm">Check every item before you show your video.</p>' + checks("lk:" + w.n + ":d", v.deliver.checks) + "</div></section>";
     h += '<section class="sec"><h2>Common mistakes</h2><ul class="plain">' + v.mistakes.map(function (m) { return "<li>" + esc(m) + "</li>"; }).join("") + "</ul></section>";
