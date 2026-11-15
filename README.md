@@ -7,6 +7,7 @@ Free Korean + video editing course for students at the church. Static site on Gi
 - Flashcards with spaced review and "Say it" pronunciation check (Chrome on Android)
 - Daily 50-question quiz, mistakes review, video quiz
 - My progress page with streak, 14-day chart and WhatsApp share to the teacher
+- AI Lab: AI workflow, tool kit, 12 copy-paste prompts, weekly AI challenges, AI rules and check list (ai.js)
 - Video lessons per week, homework print sheets, orientation page
 - English, Tagalog and Korean (switch at the top; translations in i18n.js)
 - Works offline after the first visit and can be installed on the home screen

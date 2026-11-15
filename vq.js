@@ -58,3 +58,18 @@ window.VIDQ.push(
   [12, "A good price list includes...", "A clear revision limit", ["Unlimited free revisions", "No prices", "Only your phone number"]],
   [12, "선금 means...", "Deposit paid before work", ["Remaining payment", "A discount", "A refund"]]
 );
+// AI questions
+window.VIDQ.push(
+  [1, "What is the best way to use an AI chat app for title ideas?", "Ask for 5 options and pick the best one", ["Use the first answer without reading", "Ask for one word only", "Never use AI for ideas"]],
+  [2, "Auto captions wrote a name wrong. Whose job is it to fix it?", "Yours, the editor checks every line", ["Nobody, AI is always right", "The client's job", "The viewer's job"]],
+  [3, "An AI image has text inside it. What must you check?", "That every letter is spelled correctly", ["Nothing, AI text is perfect", "Only the colors", "Only the file size"]],
+  [3, "What does text to speech do?", "Turns a written script into a voice", ["Turns a voice into music", "Removes the background", "Makes the video vertical"]],
+  [4, "A Korean client message is hard to understand. How can AI help?", "Explain it in simple English and draft a polite Korean reply", ["Send the client a random emoji", "Ignore the message", "Delete the chat"]],
+  [5, "What should a good hook do?", "Make people keep watching in the first 3 seconds", ["Show the credits", "Play music only", "Repeat the title 3 times"]],
+  [7, "Why ask AI for keyword captions?", "To pick 1 to 3 key words per sentence to show big on screen", ["To make captions longer", "To remove all captions", "To change the language of the voice"]],
+  [8, "What does Enhance voice do?", "Cleans noise from a voice recording", ["Makes the music louder", "Adds a new speaker", "Changes the video color"]],
+  [10, "Which job can AI background removal do?", "Cut out a person or product without a green screen", ["Write the script", "Pay the client", "Translate captions"]],
+  [10, "Can you paste a client's private files into any public AI tool?", "No, not without the client's permission", ["Yes, always", "Only on weekends", "Only if the file is small"]],
+  [10, "A client asks if you used AI. What do you do?", "Tell the truth", ["Say no", "Do not reply", "Delete the video"]],
+  [11, "Before you start 3 client jobs, how can AI save time?", "Check each brief for missing facts and draft questions", ["Skip reading the briefs", "Edit all 3 the same way", "Send all videos without checking"]]
+);

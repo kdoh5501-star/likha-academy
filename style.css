@@ -415,3 +415,28 @@ main { padding-top: 16px; padding-bottom: 40px; outline: none; }
   .lessons { grid-template-columns: repeat(3, 1fr); }
   .wmain .lessons { grid-template-columns: repeat(2, 1fr); }
 }
+
+/* ---------- AI Lab ---------- */
+.aihero { background: linear-gradient(135deg, #111827 0%, #1F2A6B 100%); }
+.aiban .otdot { background: var(--brand); }
+.aiflow { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; margin-top: 12px; counter-reset: s; }
+.aiflow li { position: relative; background: var(--bg-2); border-radius: var(--r); padding: 12px 12px 12px 40px; display: flex; flex-direction: column; gap: 2px; counter-increment: s; }
+.aiflow li::before { content: counter(s); position: absolute; left: 12px; top: 12px; width: 20px; height: 20px; border-radius: 50%; background: var(--brand); color: #fff; font-size: 12px; font-weight: 800; display: grid; place-items: center; }
+.aiflow li b { font-size: 15px; } .aiflow li span { font-size: 13px; color: var(--fg-2); }
+.aiflow li.you { background: var(--accent-soft); } .aiflow li.you::before { background: var(--accent); }
+.aitools { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 10px; margin-top: 12px; }
+.aitools article { padding: 16px; display: flex; flex-direction: column; gap: 4px; }
+.aiic { font-size: 24px; } .aitools h3 { font-size: 16px; } .ainames { font-size: 12px; font-weight: 700; color: var(--brand); }
+.prompts { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 10px; margin-top: 12px; }
+.prm { padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+.prmh { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.prm pre { margin: 0; flex: 1; white-space: pre-wrap; word-break: break-word; font: 13px/1.55 ui-monospace, SFMono-Regular, Menlo, monospace; background: var(--bg-2); border-radius: var(--r-sm); padding: 10px 12px; color: var(--fg-2); }
+.prm .cpy { height: 38px; }
+.aichl { display: grid; gap: 6px; margin-top: 12px; }
+.aichl a { display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px; border: 1px solid var(--line); border-radius: var(--r); background: #fff; font-size: 14px; }
+.aichl .chip { margin-top: 1px; }
+.two-col { display: grid; gap: 12px; } .two-col h2 { margin-bottom: 8px; }
+@media (min-width: 900px) { .two-col { grid-template-columns: 1fr 1fr; } .aichl { grid-template-columns: 1fr 1fr; } }
+.aich { display: flex; gap: 14px; padding: 16px; border-color: var(--brand); background: var(--brand-soft); }
+.aich p { margin: 4px 0 6px; } .aich a { color: var(--brand); font-weight: 700; font-size: 14px; }
+.aitag { flex: none; width: 40px; height: 40px; border-radius: 10px; background: var(--brand); color: #fff; font-weight: 900; display: grid; place-items: center; }

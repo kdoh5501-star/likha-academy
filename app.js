@@ -165,6 +165,7 @@
       '<div class="htop"><section class="hero"><p class="eyebrow">Free · three 1-month courses</p><h1>Learn Korean and video editing on your phone</h1>' +
       '<p class="lead">Korean and video editing, taught together. Each month is a complete 4-week course: Saturday in person at 8:00, then Tuesday online. Month 1 starts Saturday, November 21. Finish Month 1, then go on to Month 2 and Month 3.</p>' + weekPick() + "</section>" +
       '<div class="hside">' + nextClass() + '<section class="today card"><div><p class="sm muted">Today\'s Korean quiz</p><p class="tnum"><b>' + Math.min(st.t.done, 50) + '</b> / 50' + (st.streak ? ' <span class="chip ok">' + st.streak + "-day streak</span>" : "") + '</p><div class="meter"><span style="width:' + Math.min(100, st.t.done * 2) + '%"></span></div></div>' + '<a class="btn btn-accent" href="#/quiz/ko">Start 50 questions</a></section>' + '</div></div>' + installCard() + '<a class="otbanner card" href="#/ot"><span class="otdot">OT</span><span><b>Start here: Orientation</b><span class="sm muted">Why Korean, where it can take you, how the course works</span></span><span class="arr">›</span></a>' +
+      '<a class="otbanner card aiban" href="#/ai"><span class="otdot">AI</span><span><b>AI Lab</b><span class="sm muted">Tool kit, 12 copy-paste prompts and weekly AI challenges</span></span><span class="arr">›</span></a>' +
       '<div class="courses">' +
       '<a class="course ko" href="#/ko"><span class="cbig" aria-hidden="true">한</span><span class="ctag">Course 1</span><h2>Korean</h2><p>From Hangul to TOPIK I and EPS-TOPIK level. Tap any word to hear it.</p>' +
       '<span class="cstats"><b>' + totalWords + '</b> words and phrases · <b>3</b> months</span><span class="ccta">This week: ' + esc(t.ko) + " ›</span></a>" +
@@ -197,7 +198,7 @@
   function sidePanel(track, n) {
     var w = week(n), t = titles(w), h = '<div class="sidecard card"><p class="sm muted">' + WL(n) + "</p><b>" + esc(track === "ko" ? t.ko : t.vid) + '</b><div class="sacts">';
     if (track === "ko") h += '<a class="btn btn-brand btn-block" href="#/cards/' + n + '">Flashcards</a><a class="btn btn-accent btn-block" href="#/quiz/ko/' + n + '/only">' + WS(n) + ' quiz</a>' + (n === 1 ? '<a class="btn btn-line btn-block" href="#/hangul">Hangul chart</a>' : "");
-    else h += '<a class="btn btn-brand btn-block" href="#/quiz/vid/' + n + '/only">' + WS(n) + ' quiz</a>';
+    else h += '<a class="btn btn-brand btn-block" href="#/quiz/vid/' + n + '/only">' + WS(n) + ' quiz</a><a class="btn btn-accent btn-block" href="#/ai">AI Lab</a>';
     h += '<a class="btn btn-line btn-block" href="#/' + (track === "ko" ? "vid" : "ko") + "/" + n + '">' + (track === "ko" ? "Video editing" : "Korean") + ' · ' + WS(n) + '</a><a class="btn btn-ghost btn-block" href="#/hw/' + n + '">Print this week\'s homework</a></div></div>';
     C.phases.forEach(function (p) {
       h += '<div class="sidecard card"><p class="sm"><b>' + esc(p.name) + '</b></p><ul class="sweeks">' + p.weeks.map(function (m) { var x = titles(week(m)); return '<li><a href="#/' + track + "/" + m + '"' + (m === n ? ' class="on"' : "") + '><span>' + WS(m) + "</span>" + esc(track === "ko" ? x.ko : x.vid) + "</a></li>"; }).join("") + "</ul></div>";
@@ -265,7 +266,7 @@
   function vidHome() {
     app.innerHTML = crumbs([["Home", "#/"], ["Video editing"]]) +
       '<section class="phero vid"><div><p class="eyebrow">Course 2</p><h1>Video editing</h1><p class="lead">Every week: watch the lessons here, practice the same edit in CapCut, then hand in one finished video.</p>' + weekPick() + "</div></section>" +
-      '<section class="steps3"><div><b>1</b><span>Watch the lesson video on the week page</span></div><div><b>2</b><span>Practice the same edit with the free footage</span></div><div><b>3</b><span>Finish and show the week\'s video</span></div></section>' +
+      '<a class="otbanner card aiban" href="#/ai"><span class="otdot">AI</span><span><b>AI Lab</b><span class="sm muted">Tool kit, 12 copy-paste prompts and weekly AI challenges</span></span><span class="arr">›</span></a>' + '<section class="steps3"><div><b>1</b><span>Watch the lesson video on the week page</span></div><div><b>2</b><span>Practice the same edit with the free footage</span></div><div><b>3</b><span>Finish and show the week\'s video</span></div></section>' +
       weekList("vid") +
       '<div class="endcta card"><div><b>Video editing quiz</b><p class="sm muted">Questions from week 1 up to your week.</p></div><a class="btn btn-brand" href="#/quiz/vid/' + cur() + '">Start</a></div>';
     bindWeekPick(vidHome);
@@ -292,6 +293,7 @@
     if (v.tue.blocks) h += '<ol class="tl">' + v.tue.blocks.map(function (b) { return '<li><span class="tm">' + esc(b.t) + " min</span><b>" + esc(b.name) + "</b>" + (b.steps.length ? "<ul>" + b.steps.map(function (s) { return "<li>" + esc(s) + "</li>"; }).join("") + "</ul>" : "") + "</li>"; }).join("") + "</ol>";
     else h += '<ol class="ol">' + v.tue.steps.map(function (s) { return "<li>" + esc(s) + "</li>"; }).join("") + "</ol>";
     h += "</div></div></section>";
+    h += aiChallenge(w.n);
     h += '<section class="sec"><div class="card deliver"><h2>' + esc(v.deliver.title) + '</h2><p class="muted sm">Check every item before you show your video.</p>' + checks("lk:" + w.n + ":d", v.deliver.checks) + "</div></section>";
     h += '<section class="sec"><h2>Common mistakes</h2><ul class="plain">' + v.mistakes.map(function (m) { return "<li>" + esc(m) + "</li>"; }).join("") + "</ul></section>";
     h += '<div class="endcta card"><div><b>Check yourself</b><p class="sm muted">Video questions from this week.</p></div><a class="btn btn-brand" href="#/quiz/vid/' + w.n + '/only">' + WS(w.n) + " quiz</a></div>";
@@ -591,6 +593,38 @@
       if (open && (k === "2" || k === "ArrowRight")) { e.preventDefault(); document.getElementById("fg").click(); return; }
     }
   });
+  /* ---------- AI Lab ---------- */
+  var AI = window.AILAB || { flow: [], tools: [], prompts: [], challenge: {}, rules: [], checks: [] };
+  function L(o) { return o ? (o[lang()] || o.en) : ""; }
+  function aiChallenge(n) {
+    var c = AI.challenge[n]; if (!c) return "";
+    return '<section class="sec"><div class="aich card" data-notr><span class="aitag">AI</span><div><b>' + L({ en: "AI challenge this week", tl: "AI challenge ngayong linggo", ko: "이번 주 AI 챌린지" }) + "</b><p>" + esc(L(c)) + '</p><a href="#/ai">' + L({ en: "Open the AI Lab: tools and prompts ›", tl: "Buksan ang AI Lab: tools at prompts ›", ko: "AI 랩 열기: 도구와 프롬프트 ›" }) + "</a></div></div></section>";
+  }
+  function aiLab() {
+    var h = crumbs([["Home", "#/"], ["Video editing", "#/vid"], ["AI Lab"]]) + '<div data-notr>' +
+      '<section class="phero vid aihero"><div><p class="eyebrow">AI Lab</p><h1>' + L({ en: "Edit faster with AI", tl: "Mag-edit nang mas mabilis gamit ang AI", ko: "AI로 더 빠르게 편집하기" }) + '</h1><p class="lead">' +
+      L({ en: "Korean clients want videos fast. AI does the slow parts: ideas, scripts, captions, voices, images and cut-outs. You stay the editor who checks and decides.", tl: "Gusto ng Korean clients ng mabilis na video. Ang AI ang gagawa ng mabagal na bahagi: ideya, script, captions, boses, images at cut-outs. Ikaw pa rin ang editor na nagche-check at nagpapasya.", ko: "한국 클라이언트는 빠른 영상을 원해요. 아이디어, 대본, 자막, 목소리, 이미지, 누끼 같은 오래 걸리는 일은 AI가 하고, 확인과 결정은 편집자인 내가 해요." }) + "</p></div></section>";
+    h += '<section class="sec"><h2>' + L({ en: "Where AI fits in a client job", tl: "Saan pumapasok ang AI sa client job", ko: "클라이언트 작업 속 AI의 자리" }) + '</h2><ol class="aiflow">' +
+      AI.flow.map(function (f, i) { return '<li' + (i === 5 ? ' class="you"' : "") + '><b>' + esc(L(f)) + "</b><span>" + esc(L(f.ai)) + "</span></li>"; }).join("") + "</ol></section>";
+    h += '<section class="sec"><h2>' + L({ en: "Your AI tool kit", tl: "Ang AI tool kit mo", ko: "나의 AI 도구 모음" }) + '</h2><p class="muted sm">' + L({ en: "All of these have a free version that works on a phone.", tl: "Lahat ng ito ay may libreng version na gumagana sa phone.", ko: "모두 휴대폰에서 쓸 수 있는 무료 버전이 있어요." }) + '</p><div class="aitools">' +
+      AI.tools.map(function (t) { return '<article class="card"><span class="aiic" aria-hidden="true">' + t.icon + "</span><h3>" + esc(L(t.job)) + '</h3><p class="ainames">' + esc(t.names) + '</p><p class="sm">' + esc(L(t.use)) + "</p></article>"; }).join("") + "</div></section>";
+    h += '<section class="sec"><h2>' + L({ en: "Prompt library", tl: "Prompt library", ko: "프롬프트 모음" }) + ' <span class="cnt">' + AI.prompts.length + '</span></h2><p class="muted sm">' + L({ en: "Copy a prompt, paste it into ChatGPT, Claude or Gemini, and replace the [brackets] with your own details.", tl: "Kopyahin ang prompt, i-paste sa ChatGPT, Claude o Gemini, at palitan ang [brackets] ng sarili mong detalye.", ko: "프롬프트를 복사해 ChatGPT, Claude, Gemini에 붙여 넣고 [괄호] 부분을 내 내용으로 바꾸세요." }) + '</p><div class="prompts">' +
+      AI.prompts.map(function (p, i) { return '<article class="card prm"><div class="prmh"><b>' + esc(L(p.t)) + '</b><span class="chip">' + WS(p.w) + '</span></div><pre id="pr' + i + '">' + esc(p.p) + '</pre><button class="btn btn-line cpy" data-cp="pr' + i + '">' + L({ en: "Copy prompt", tl: "Kopyahin", ko: "복사" }) + "</button></article>"; }).join("") + "</div></section>";
+    h += '<section class="sec"><h2>' + L({ en: "12 weekly AI challenges", tl: "12 lingguhang AI challenge", ko: "주간 AI 챌린지 12개" }) + '</h2><ol class="aichl">' +
+      C.weeks.map(function (w) { var c = AI.challenge[w.n]; return c ? '<li><a href="#/vid/' + w.n + '"><span class="chip">' + WS(w.n) + "</span><span>" + esc(L(c)) + "</span></a></li>" : ""; }).join("") + "</ol></section>";
+    h += '<section class="sec two-col"><div class="card pad2"><h2>' + L({ en: "AI rules for LIKHA editors", tl: "Mga patakaran sa AI para sa LIKHA editors", ko: "LIKHA 편집자 AI 규칙" }) + '</h2><ul class="plain">' + AI.rules.map(function (r) { return "<li>" + esc(L(r)) + "</li>"; }).join("") + "</ul></div>" +
+      '<div class="card pad2"><h2>' + L({ en: "AI check before delivery", tl: "AI check bago mag-deliver", ko: "납품 전 AI 검수" }) + "</h2>" + checks("lk:aichk", AI.checks.map(L)) + "</div></section>";
+    h += '<div class="endcta card"><div><b>' + L({ en: "Test your AI knowledge", tl: "Subukan ang alam mo sa AI", ko: "AI 지식 확인" }) + '</b><p class="sm muted">' + L({ en: "AI questions are mixed into the video quiz.", tl: "Kasama ang AI questions sa video quiz.", ko: "AI 문제가 영상 퀴즈에 섞여 있어요." }) + '</p></div><a class="btn btn-brand" href="#/quiz/vid/' + Math.max(cur(), 3) + '">' + L({ en: "Video quiz", tl: "Video quiz", ko: "영상 퀴즈" }) + "</a></div></div>";
+    app.innerHTML = h;
+    app.querySelectorAll(".cpy").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var txt = document.getElementById(b.getAttribute("data-cp")).textContent, done = function () { var o = b.textContent; b.textContent = L({ en: "Copied ✓", tl: "Nakopya ✓", ko: "복사됨 ✓" }); setTimeout(function () { b.textContent = o; }, 1500); };
+        if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(done, function () { fallbackCopy(txt); done(); }); else { fallbackCopy(txt); done(); }
+      });
+    });
+  }
+  function fallbackCopy(t) { try { var a = document.createElement("textarea"); a.value = t; a.style.position = "fixed"; a.style.opacity = "0"; document.body.appendChild(a); a.select(); document.execCommand("copy"); a.remove(); } catch (e) {} }
+
   /* ---------- router ---------- */
   function setNav(sec) {
     document.querySelectorAll("[data-nav]").forEach(function (a) { a.classList.toggle("on", a.getAttribute("data-nav") === sec); });
@@ -620,6 +654,7 @@
     else if (h === "#/books") { books(); setNav("ko"); }
     else if (h === "#/ot") { ot(); setNav("home"); }
     else if (h === "#/hangul") { hangul(); setNav("ko"); }
+    else if (h === "#/ai") { aiLab(); setNav("ai"); }
     else if (h === "#/me") { me(); setNav("me"); }
     else if ((m = h.match(/^#\/cards\/(\d+)$/)) && week(+m[1])) { document.body.classList.add("inquiz"); cards(+m[1]); setNav("ko"); }
     else if (h === "#/quiz/ko/review") { document.body.classList.add("inquiz"); quiz("ko", "review", 0); setNav("quiz"); }
