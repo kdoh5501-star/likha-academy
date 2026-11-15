@@ -89,7 +89,7 @@
     app.innerHTML =
       '<section class="hero"><p class="eyebrow">Free · three 1-month courses</p><h1>Learn Korean and video editing on your phone</h1>' +
       '<p class="lead">Korean and video editing, taught together. Each month is a complete 4-week course: Saturday in person at 8:00, then Tuesday online. Month 1 starts Saturday, November 21. Finish Month 1, then go on to Month 2 and Month 3.</p>' + weekPick() + "</section>" +
-      '<a class="otbanner card" href="#/ot"><span class="otdot">OT</span><span><b>Start here: Orientation</b><span class="sm muted">Why Korean, where it can take you, how the course works</span></span><span class="arr">›</span></a>' +
+      nextClass() + installCard() + '<a class="otbanner card" href="#/ot"><span class="otdot">OT</span><span><b>Start here: Orientation</b><span class="sm muted">Why Korean, where it can take you, how the course works</span></span><span class="arr">›</span></a>' +
       '<div class="courses">' +
       '<a class="course ko" href="#/ko"><span class="cbig" aria-hidden="true">한</span><span class="ctag">Course 1</span><h2>Korean</h2><p>From Hangul to TOPIK I and EPS-TOPIK level. Tap any word to hear it.</p>' +
       '<span class="cstats"><b>' + totalWords + '</b> words and phrases · <b>3</b> months</span><span class="ccta">This week: ' + esc(t.ko) + " ›</span></a>" +
@@ -98,7 +98,7 @@
       '<section class="today card"><div><p class="sm muted">Today\'s Korean quiz</p><p class="tnum"><b>' + Math.min(st.t.done, 50) + '</b> / 50' + (st.streak ? ' <span class="chip ok">' + st.streak + "-day streak</span>" : "") + '</p><div class="meter"><span style="width:' + Math.min(100, st.t.done * 2) + '%"></span></div></div>' +
       '<a class="btn btn-accent" href="#/quiz/ko">Start 50 questions</a></section>' +
       '<p class="more"><a href="#/hw/' + c + '">Print this week\'s homework</a> · <a href="#/books">Textbooks and past papers</a></p>';
-    bindWeekPick(home);
+    bindWeekPick(home); bindInstall();
   }
 
 
@@ -127,8 +127,10 @@
       '<section class="quizcard card"><div><h2>Today\'s 50 questions</h2><p class="muted sm">Mostly this week\'s words, plus review from earlier weeks. Listening questions play the sound.</p>' +
       '<div class="meter"><span style="width:' + Math.min(100, st.t.done * 2) + '%"></span></div><p class="sm"><b>' + Math.min(st.t.done, 50) + '</b> of 50 done today</p></div>' +
       '<div class="qa"><a class="btn btn-accent btn-lg" href="#/quiz/ko">Start</a><a class="btn btn-line" href="#/quiz/ko/review">My mistakes</a></div></section>' +
+      '<section class="tools3"><a class="card" href="#/hangul"><span class="ti">가</span><b>Hangul chart</b><span class="sm muted">Every letter and syllable</span></a><a class="card" href="#/cards/' + cur() + '"><span class="ti">⇄</span><b>Flashcards</b><span class="sm muted">' + WS(cur()) + ' · ' + mastered(cardPool(cur())) + '/' + cardPool(cur()).length + ' learned</span></a><a class="card" href="#/me"><span class="ti">★</span><b>My progress</b><span class="sm muted">Streak and scores</span></a></section>' +
+      '<section class="sec"><label class="search"><span class="sr">Search all words</span><input id="wq" type="search" placeholder="Search a word: 안녕, hello, annyeong…" autocomplete="off"></label><div id="wres"></div></section>' +
       weekList("ko") + '<p class="more"><a href="#/books">Textbooks, past papers and mock tests</a></p>';
-    bindWeekPick(koHome);
+    bindWeekPick(koHome); bindSearch();
   }
 
   function koWeek(w) {
@@ -137,6 +139,7 @@
       '<div class="days"><div><b>Sat · in person' + (dates(w.n) ? " · " + dates(w.n).split(" · ")[0].slice(4) : "") + '</b><span>' + esc(w.ko.sat) + '</span></div><div><b>Tue · online' + (dates(w.n) ? " · " + dates(w.n).split(" · ")[1].slice(4) : "") + '</b><span>' + esc(w.ko.tue) + "</span></div></div>" +
       '<p class="sm muted">Week check: ' + esc(w.test) + "</p>" + pattern(C.koPattern, "How each 3-hour Korean class runs") + "</header>";
     h += '<div id="voicenote">' + voiceNote() + "</div><p class=\"hint\">" + SPK + " Tap any word or sentence to hear it.</p>";
+    if (w.n === 1) h += '<a class="otbanner card" href="#/hangul"><span class="otdot">가</span><span><b>Hangul chart and syllable builder</b><span class="sm muted">All 40 letters and every basic syllable, with sound</span></span><span class="arr">›</span></a>';
     if (w.ko.grammar) {
       h += '<section class="sec"><h2>Grammar</h2><div class="gram">' + w.ko.grammar.map(function (g) {
         var ex = g[2].replace(/\s*\(.*\)$/, "");
@@ -166,6 +169,8 @@
     }
     var kl = (w.links || []).filter(function (l) { return l[0] === "Korean"; });
     if (kl.length) h += '<section class="sec"><h2>Listen and learn more</h2><ul class="links">' + kl.map(function (l) { return '<li><a href="' + esc(l[2]) + '" target="_blank" rel="noopener">' + esc(l[1]) + "<span>YouTube ›</span></a></li>"; }).join("") + "</ul></section>";
+    var cp = cardPool(w.n);
+    h += '<div class="endcta card"><div><b>Flashcards</b><p class="sm muted">' + mastered(cp) + " of " + cp.length + ' words learned. Tap to turn, then say it.</p></div><a class="btn btn-brand" href="#/cards/' + w.n + '">Practice cards</a></div>';
     h += '<div class="endcta card"><div><b>Check yourself</b><p class="sm muted">Questions from this week only.</p></div><a class="btn btn-accent" href="#/quiz/ko/' + w.n + '/only">' + WS(w.n) + " quiz</a></div>";
     h += weekNav("#/ko/", w.n);
     return h;
@@ -308,6 +313,183 @@
     show();
   }
 
+  /* ---------- Hangul chart & syllable builder ---------- */
+  var CHO = "ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ", JUNG = "ㅏㅐㅑㅒㅓㅔㅕㅖㅗㅘㅙㅚㅛㅜㅝㅞㅟㅠㅡㅢㅣ";
+  var JONG = ["", "ㄱ", "ㄲ", "ㄳ", "ㄴ", "ㄵ", "ㄶ", "ㄷ", "ㄹ", "ㄺ", "ㄻ", "ㄼ", "ㄽ", "ㄾ", "ㄿ", "ㅀ", "ㅁ", "ㅂ", "ㅄ", "ㅅ", "ㅆ", "ㅇ", "ㅈ", "ㅊ", "ㅋ", "ㅌ", "ㅍ", "ㅎ"];
+  var CR = { "ㄱ": "g/k", "ㄲ": "kk", "ㄴ": "n", "ㄷ": "d/t", "ㄸ": "tt", "ㄹ": "r/l", "ㅁ": "m", "ㅂ": "b/p", "ㅃ": "pp", "ㅅ": "s", "ㅆ": "ss", "ㅇ": "silent / ng", "ㅈ": "j", "ㅉ": "jj", "ㅊ": "ch", "ㅋ": "k", "ㅌ": "t", "ㅍ": "p", "ㅎ": "h" };
+  var VR = { "ㅏ": "a", "ㅐ": "ae", "ㅑ": "ya", "ㅒ": "yae", "ㅓ": "eo", "ㅔ": "e", "ㅕ": "yeo", "ㅖ": "ye", "ㅗ": "o", "ㅘ": "wa", "ㅙ": "wae", "ㅚ": "oe", "ㅛ": "yo", "ㅜ": "u", "ㅝ": "wo", "ㅞ": "we", "ㅟ": "wi", "ㅠ": "yu", "ㅡ": "eu", "ㅢ": "ui", "ㅣ": "i" };
+  var BASIC_C = "ㄱㄴㄷㄹㅁㅂㅅㅇㅈㅊㅋㅌㅍㅎ", DOUBLE_C = "ㄲㄸㅃㅆㅉ", BASIC_V = "ㅏㅑㅓㅕㅗㅛㅜㅠㅡㅣ", COMP_V = "ㅐㅒㅔㅖㅘㅙㅚㅝㅞㅟㅢ";
+  var BAT = ["", "ㄱ", "ㄴ", "ㄷ", "ㄹ", "ㅁ", "ㅂ", "ㅅ", "ㅇ", "ㅈ", "ㅊ", "ㅋ", "ㅌ", "ㅍ", "ㅎ"];
+  function syl(c, v, b) { return String.fromCharCode(0xAC00 + (CHO.indexOf(c) * 21 + JUNG.indexOf(v)) * 28 + (b ? JONG.indexOf(b) : 0)); }
+  function jamoTiles(chars, isC) {
+    return '<div class="tiles">' + chars.split("").map(function (j) {
+      var say = isC ? syl(j, "ㅏ") : syl("ㅇ", j);
+      return '<button data-say="' + say + '"><span class="hk">' + j + '</span><span class="rm">' + esc(isC ? CR[j] : VR[j]) + "</span></button>";
+    }).join("") + "</div>";
+  }
+  function hangul() {
+    var h = crumbs([["Home", "#/"], ["Korean", "#/ko"], ["Hangul chart"]]) +
+      '<section class="phero ko"><div><p class="eyebrow">Week 1 helper</p><h1>Hangul chart</h1><p class="lead">All 40 letters, every basic syllable and a block builder. Tap anything to hear it.</p></div></section>' +
+      '<div id="voicenote">' + voiceNote() + "</div>" +
+      '<section class="sec"><h2>Build a syllable</h2><p class="muted sm">Pick a consonant, a vowel and, if you like, a bottom letter (batchim).</p><div class="builder card">' +
+      '<div class="bout"><button class="bsyl" id="bsyl" data-say="가">가</button><p class="sm muted" id="brom">g + a</p></div>' +
+      '<div class="bpick"><p class="bl">Consonant</p><div class="seg" id="bc">' + (BASIC_C + DOUBLE_C).split("").map(function (j, i) { return '<button data-v="' + j + '"' + (i ? "" : ' class="on"') + ">" + j + "</button>"; }).join("") + "</div>" +
+      '<p class="bl">Vowel</p><div class="seg" id="bv">' + (BASIC_V + COMP_V).split("").map(function (j, i) { return '<button data-v="' + j + '"' + (i ? "" : ' class="on"') + ">" + j + "</button>"; }).join("") + "</div>" +
+      '<p class="bl">Bottom letter</p><div class="seg" id="bb">' + BAT.map(function (j, i) { return '<button data-v="' + j + '"' + (i ? "" : ' class="on"') + ">" + (j || "none") + "</button>"; }).join("") + "</div></div></div></section>" +
+      '<section class="sec"><h2>14 basic consonants</h2><p class="muted sm">Each one is said with ㅏ so you can hear it.</p>' + jamoTiles(BASIC_C, true) + "</section>" +
+      '<section class="sec"><h2>5 double consonants</h2><p class="muted sm">Said tighter and stronger, with no puff of air.</p>' + jamoTiles(DOUBLE_C, true) + "</section>" +
+      '<section class="sec"><h2>10 basic vowels</h2><p class="muted sm">Written with the silent ㅇ in front, like 아.</p>' + jamoTiles(BASIC_V, false) + "</section>" +
+      '<section class="sec"><h2>11 compound vowels</h2><p class="muted sm">Two vowels joined. ㅐ and ㅔ sound almost the same today.</p>' + jamoTiles(COMP_V, false) + "</section>" +
+      '<section class="sec"><h2>Syllable table</h2><p class="muted sm">Consonant down the side, vowel across the top. Scroll sideways on a phone.</p><div class="sylwrap"><table class="syltab"><tr><th></th>' +
+      BASIC_V.split("").map(function (v) { return "<th>" + v + "</th>"; }).join("") + "</tr>" +
+      BASIC_C.split("").map(function (c) { return "<tr><th>" + c + "</th>" + BASIC_V.split("").map(function (v) { var s = syl(c, v); return '<td><button data-say="' + s + '">' + s + "</button></td>"; }).join("") + "</tr>"; }).join("") +
+      "</table></div></section>" +
+      '<div class="endcta card"><div><b>Test yourself</b><p class="sm muted">Week 1 quiz: letters and greetings.</p></div><a class="btn btn-accent" href="#/quiz/ko/1/only">M1 W1 quiz</a></div>';
+    app.innerHTML = h;
+    var sel = { c: "ㄱ", v: "ㅏ", b: "" };
+    function upd() {
+      var s = syl(sel.c, sel.v, sel.b), o = document.getElementById("bsyl");
+      o.textContent = s; o.setAttribute("data-say", s);
+      document.getElementById("brom").textContent = (CR[sel.c] === "silent / ng" ? "silent ㅇ" : CR[sel.c]) + " + " + VR[sel.v] + (sel.b ? " + " + sel.b : "");
+      speak(s, o);
+    }
+    [["bc", "c"], ["bv", "v"], ["bb", "b"]].forEach(function (p) {
+      var box = document.getElementById(p[0]);
+      box.addEventListener("click", function (e) {
+        var b = e.target.closest("button"); if (!b) return;
+        box.querySelectorAll("button").forEach(function (x) { x.classList.remove("on"); }); b.classList.add("on");
+        sel[p[1]] = b.getAttribute("data-v"); upd();
+      });
+    });
+  }
+
+  /* ---------- flashcards (Leitner boxes) ---------- */
+  function boxes() { return load("lk:box", {}); }
+  function mastered(list) { var b = boxes(), n = 0; list.forEach(function (i) { if ((b[i.ko] || 0) >= 3) n++; }); return n; }
+  function cardPool(n) { return wordPool(n, n).filter(function (i) { return !i.tile; }); }
+  var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  function norm(s) { return String(s).replace(/[\s.,!?~…·'"()]/g, "").replace(/___/g, ""); }
+  function cards(n) {
+    var all = cardPool(n), b = boxes(), dir = load("lk:carddir", "ko");
+    var deck = shuffle(all).sort(function (x, y) { return (b[x.ko] || 0) - (b[y.ko] || 0); }).slice(0, 20), i = 0, got = 0;
+    var head = crumbs([["Home", "#/"], ["Korean", "#/ko"], [WS(n), "#/ko/" + n], ["Flashcards"]]);
+    if (!deck.length) { app.innerHTML = head + '<section class="card center pad"><h1>No cards for this week</h1><a class="btn btn-accent" href="#/ko/' + n + '">Back</a></section>'; return; }
+    function show() {
+      var it = deck[i], front = dir === "ko" ? '<p class="fko">' + esc(it.ko) + "</p>" : '<p class="fen">' + esc(it.en) + "</p>";
+      app.innerHTML = head + '<section class="fcwrap"><div class="qbar"><span class="sm muted">' + WL(n) + " · " + mastered(all) + " of " + all.length + ' learned</span><b>' + (i + 1) + " / " + deck.length + '</b></div><div class="meter"><span style="width:' + (i / deck.length * 100) + '%"></span></div>' +
+        '<div class="fdir"><button data-d="ko"' + (dir === "ko" ? ' class="on"' : "") + '>Korean first</button><button data-d="en"' + (dir === "en" ? ' class="on"' : "") + ">English first</button></div>" +
+        '<button class="fcard card" id="fc">' + front + '<span class="fhint sm muted">Tap to turn over</span><span class="fback" hidden><span class="fko2">' + esc(it.ko) + '</span><span class="rm">' + esc(it.rom) + '</span><span class="en">' + esc(it.en) + "</span></span></button>" +
+        '<div class="frow" id="fr" hidden><button class="btn btn-line btn-lg" id="fa">Again</button><button class="btn btn-accent btn-lg" id="fg">I knew it</button></div>' +
+        '<div class="frow"><button class="btn btn-ghost" id="fl">' + SPK + ' Listen</button>' + (SR ? '<button class="btn btn-ghost" id="fs">🎤 Say it</button>' : "") + '</div><p class="sm center" id="fsr" aria-live="polite"></p></section>';
+      if (dir === "ko") speak(it.ko);
+      var fc = document.getElementById("fc");
+      fc.addEventListener("click", function () { fc.classList.add("open"); fc.querySelector(".fback").hidden = false; fc.querySelector(".fhint").hidden = true; document.getElementById("fr").hidden = false; speak(it.ko); });
+      document.getElementById("fa").addEventListener("click", function () { mark(0); });
+      document.getElementById("fg").addEventListener("click", function () { mark(1); });
+      document.getElementById("fl").addEventListener("click", function () { speak(it.ko); });
+      app.querySelectorAll("[data-d]").forEach(function (x) { x.addEventListener("click", function () { dir = x.getAttribute("data-d"); save("lk:carddir", dir); show(); }); });
+      var fs = document.getElementById("fs"); if (fs) fs.addEventListener("click", function () { listen(it, fs); });
+    }
+    function mark(ok) { var bb = boxes(); bb[deck[i].ko] = ok ? Math.min(5, (bb[deck[i].ko] || 0) + 1) : 0; save("lk:box", bb); if (ok) got++; i++; if (i < deck.length) show(); else end(); }
+    function end() {
+      app.innerHTML = head + '<section class="card center pad score"><p class="sm muted">Flashcards · ' + WL(n) + '</p><p class="big">' + got + " / " + deck.length + '</p><p class="muted">' + mastered(all) + " of " + all.length + ' words learned this week</p><div class="row"><a class="btn btn-accent" id="again" href="#/cards/' + n + '">20 more cards</a><a class="btn btn-line" href="#/quiz/ko/' + n + '/only">Take the quiz</a><a class="btn btn-ghost" href="#/ko/' + n + '">Back to week</a></div></section>';
+      document.getElementById("again").addEventListener("click", function (e) { e.preventDefault(); cards(n); });
+    }
+    show();
+  }
+  function listen(it, btn) {
+    var out = document.getElementById("fsr"), r;
+    try { r = new SR(); } catch (e) { return; }
+    r.lang = "ko-KR"; r.interimResults = false; r.maxAlternatives = 5;
+    btn.disabled = true; out.textContent = "Listening… say it now";
+    r.onresult = function (e) {
+      var alts = [], ok = false, t = norm(it.ko);
+      for (var k = 0; k < e.results[0].length; k++) { alts.push(e.results[0][k].transcript); if (norm(e.results[0][k].transcript) === t) ok = true; }
+      out.innerHTML = ok ? '<span class="okc">Perfect! You said ' + esc(it.ko) + "</span>" : '<span class="noc">I heard: ' + esc(alts[0] || "?") + "</span> · try again";
+    };
+    r.onerror = function () { out.textContent = "Could not hear you. Allow the microphone and try again."; };
+    r.onend = function () { btn.disabled = false; };
+    r.start();
+  }
+
+  /* ---------- word search ---------- */
+  function allWords() { var o = []; C.weeks.forEach(function (w) { w.ko.sections.forEach(function (s) { if (s.type !== "tiles") s.items.forEach(function (i) { o.push({ ko: i[0], rom: i[1], en: i[2], w: w.n }); }); }); }); return o; }
+  function bindSearch() {
+    var q = document.getElementById("wq"), out = document.getElementById("wres"); if (!q) return;
+    var list = allWords();
+    q.addEventListener("input", function () {
+      var v = q.value.trim().toLowerCase();
+      if (v.length < 1) { out.innerHTML = ""; return; }
+      var r = list.filter(function (i) { return i.ko.indexOf(v) >= 0 || i.en.toLowerCase().indexOf(v) >= 0 || i.rom.toLowerCase().replace(/-/g, "").indexOf(v.replace(/-/g, "")) >= 0; }).slice(0, 30);
+      out.innerHTML = r.length ? '<ul class="words card">' + r.map(function (i) { return '<li><button data-say="' + esc(i.ko) + '"><span class="wk"><span class="ko">' + esc(i.ko) + '</span><span class="rm">' + esc(i.rom) + '</span></span><span class="en">' + esc(i.en) + ' <small class="chip">' + WS(i.w) + "</small></span>" + SPK + "</button></li>"; }).join("") + "</ul>" : '<p class="muted sm">No words found.</p>';
+    });
+  }
+
+  /* ---------- next class ---------- */
+  function sessions() {
+    var out = []; if (!C.start) return out;
+    for (var k = 0; k < 4; k++) {
+      var s = new Date(C.start); s.setDate(s.getDate() + 7 * k); s.setHours(8, 0, 0, 0);
+      var t = new Date(s); t.setDate(t.getDate() + 3); t.setHours(19, 0, 0, 0);
+      out.push({ d: s, end: new Date(s.getTime() + 6 * 36e5), what: "Saturday class at the church", sub: k === 0 ? "8:00 Orientation, then Korean and video" : "8:00 to 2:00 · Korean, then video", n: k + 1 });
+      out.push({ d: t, end: new Date(t.getTime() + 3 * 36e5), what: "Tuesday online class", sub: "Join from your phone", n: k + 1, online: true });
+    }
+    return out;
+  }
+  function nextClass() {
+    var now = new Date(), s = sessions().filter(function (x) { return x.end > now; })[0];
+    if (!s) return '<section class="nextc card"><div><p class="sm muted">Next class</p><b>Month 2 dates coming soon</b><p class="sm muted">Ask Teacher Charlie or Pastor Jun.</p></div></section>';
+    var live = s.d <= now, days = Math.ceil((new Date(s.d.getFullYear(), s.d.getMonth(), s.d.getDate()) - new Date(now.getFullYear(), now.getMonth(), now.getDate())) / 864e5);
+    var when = live ? "Now" : days === 0 ? "Today" : days === 1 ? "Tomorrow" : "In " + days + " days";
+    var dl = s.d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" }) + (s.online ? "" : " · 8:00 AM");
+    return '<section class="nextc card' + (live || days <= 1 ? " soon" : "") + '"><div class="ncw"><span>' + when + '</span></div><div><p class="sm muted">Next class · ' + WL(s.n) + '</p><b>' + s.what + '</b><p class="sm muted">' + dl + " · " + s.sub + '</p></div><a class="btn btn-line" href="#/' + (s.online ? "vid" : "ko") + "/" + s.n + '">Prepare</a></section>';
+  }
+
+  /* ---------- my progress ---------- */
+  function me() {
+    var s = load("lk:stats", { days: {} }), st = stats(), name = load("lk:name", ""), tot = 0, ok = 0;
+    Object.keys(s.days).forEach(function (k) { tot += s.days[k].done; ok += s.days[k].right; });
+    var bars = "", d = new Date(), mx = 50;
+    var days14 = []; for (var k = 13; k >= 0; k--) { var x = new Date(d); x.setDate(d.getDate() - k); var key = x.getFullYear() + "-" + (x.getMonth() + 1) + "-" + x.getDate(); days14.push({ l: x.toLocaleDateString("en-US", { weekday: "narrow" }), v: (s.days[key] || { done: 0 }).done }); }
+    days14.forEach(function (x) { mx = Math.max(mx, x.v); });
+    bars = days14.map(function (x) { return '<div class="bcol"><span class="bv' + (x.v >= 50 ? " full" : "") + '" style="height:' + Math.round(x.v / mx * 100) + '%" title="' + x.v + '"></span><small>' + x.l + "</small></div>"; }).join("");
+    var words = allWords(), mw = mastered(words), vl = 0, vlt = 0;
+    Object.keys(VL).forEach(function (n) { VL[n].forEach(function (_, i) { vlt++; if (load("lk:" + n + ":vl:" + i, false)) vl++; }); });
+    var wrong = load("lk:wrong", []).length, c = cur();
+    var weekRows = C.weeks.filter(function (w) { return w.n <= Math.max(4, c); }).map(function (w) { var p = cardPool(w.n), m = mastered(p); return '<li><a href="#/cards/' + w.n + '"><span>' + WS(w.n) + '</span><span class="meter"><span style="width:' + (p.length ? m / p.length * 100 : 0) + '%"></span></span><b>' + m + "/" + p.length + "</b></a></li>"; }).join("");
+    app.innerHTML = crumbs([["Home", "#/"], ["My progress"]]) +
+      '<section class="phero ko"><div><p class="eyebrow">My progress</p><h1>' + (name ? esc(name) : "Hello!") + '</h1><label class="namei">My name <input id="nm" value="' + esc(name) + '" placeholder="Type your name" autocomplete="name"></label></div></section>' +
+      '<section class="kpis"><div class="card"><b>' + st.streak + '</b><span>day streak</span></div><div class="card"><b>' + Math.min(st.t.done, 50) + '/50</b><span>today</span></div><div class="card"><b>' + (tot ? Math.round(ok / tot * 100) : 0) + '%</b><span>correct, all time</span></div><div class="card"><b>' + mw + '</b><span>words learned</span></div></section>' +
+      '<section class="sec"><h2>Quiz questions, last 14 days</h2><div class="bars card">' + bars + '</div><p class="sm muted">Orange bars mean you finished all 50 that day.</p></section>' +
+      '<section class="sec"><h2>Words learned by week</h2><p class="muted sm">A word counts as learned after you get it right in flashcards 3 times.</p><ul class="wprog">' + weekRows + "</ul></section>" +
+      '<section class="sec"><h2>Video lessons</h2><div class="card pad2"><div class="meter"><span style="width:' + (vlt ? vl / vlt * 100 : 0) + '%"></span></div><p class="sm"><b>' + vl + "</b> of " + vlt + " lessons marked done</p></div></section>" +
+      '<div class="endcta card"><div><b>Send my progress to the teacher</b><p class="sm muted">Opens WhatsApp with your numbers ready to send.</p></div><a class="btn btn-accent" id="share" href="#">Send</a></div>' +
+      (wrong ? '<p class="more"><a href="#/quiz/ko/review">Practice my ' + wrong + " mistakes</a></p>" : "");
+    var nm = document.getElementById("nm");
+    nm.addEventListener("change", function () { save("lk:name", nm.value.trim()); me(); });
+    document.getElementById("share").addEventListener("click", function (e) {
+      e.preventDefault();
+      var t = "LIKHA Academy progress\nName: " + (load("lk:name", "") || "-") + "\nClass: " + WL(cur()) + "\nToday: " + Math.min(st.t.done, 50) + "/50 quiz\nStreak: " + st.streak + " days\nCorrect (all time): " + (tot ? Math.round(ok / tot * 100) : 0) + "%\nWords learned: " + mw + "\nVideo lessons done: " + vl + "/" + vlt;
+      if (navigator.share) navigator.share({ text: t }).catch(function () {}); else window.open("https://wa.me/?text=" + encodeURIComponent(t), "_blank");
+    });
+  }
+
+  /* ---------- install as app ---------- */
+  var deferredInstall = null;
+  window.addEventListener("beforeinstallprompt", function (e) { e.preventDefault(); deferredInstall = e; var b = document.getElementById("inst"); if (b) b.hidden = false; });
+  function installCard() {
+    var standalone = window.matchMedia && window.matchMedia("(display-mode: standalone)").matches || navigator.standalone;
+    if (standalone || load("lk:noinst", false)) return "";
+    var ios = /iphone|ipad|ipod/i.test(navigator.userAgent);
+    return '<section class="inst card" id="instc"><div><b>Put LIKHA on your home screen</b><p class="sm muted">' + (ios ? "In Safari tap Share, then Add to Home Screen. It works offline too." : "Opens like an app and works even without Wi-Fi.") + "</p></div>" +
+      (ios ? "" : '<button class="btn btn-brand" id="inst"' + (deferredInstall ? "" : " hidden") + ">Install</button>") + '<button class="x" id="instx" aria-label="Hide">✕</button></section>';
+  }
+  function bindInstall() {
+    var b = document.getElementById("inst"), x = document.getElementById("instx");
+    if (b) b.addEventListener("click", function () { if (!deferredInstall) return; deferredInstall.prompt(); deferredInstall.userChoice.then(function () { deferredInstall = null; var c = document.getElementById("instc"); if (c) c.remove(); }); });
+    if (x) x.addEventListener("click", function () { save("lk:noinst", true); var c = document.getElementById("instc"); if (c) c.remove(); });
+  }
+
   /* ---------- router ---------- */
   function setNav(sec) {
     document.querySelectorAll("[data-nav]").forEach(function (a) { a.classList.toggle("on", a.getAttribute("data-nav") === sec); });
@@ -336,6 +518,9 @@
     else if (h === "#/vid") { vidHome(); setNav("vid"); }
     else if (h === "#/books") { books(); setNav("ko"); }
     else if (h === "#/ot") { ot(); setNav("home"); }
+    else if (h === "#/hangul") { hangul(); setNav("ko"); }
+    else if (h === "#/me") { me(); setNav("me"); }
+    else if ((m = h.match(/^#\/cards\/(\d+)$/)) && week(+m[1])) { document.body.classList.add("inquiz"); cards(+m[1]); setNav("ko"); }
     else if (h === "#/quiz/ko/review") { document.body.classList.add("inquiz"); quiz("ko", "review", 0); setNav("quiz"); }
     else if ((m = h.match(/^#\/quiz\/(ko|vid)(?:\/(\d+)(\/only)?)?$/))) { var n = m[2] && week(+m[2]) ? +m[2] : cur(); document.body.classList.add("inquiz"); quiz(m[1], m[3] ? "only" : "daily", n); setNav(m[1] === "ko" ? "quiz" : "vid"); }
     else { home(); setNav("home"); }
