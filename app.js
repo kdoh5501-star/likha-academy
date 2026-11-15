@@ -112,10 +112,10 @@
 
   function startQuiz(w) {
     var pool = [];
-    w.korean.sections.forEach(function (s) {
+    w.korean.sections.forEach(function (s, si) {
       s.items.forEach(function (it) {
         var ans = s.type === "tiles" ? it.rom : it.en;
-        if (it.ko.indexOf("___") === -1 && ans) pool.push({ ko: it.ko, ans: ans, type: s.type });
+        if (it.ko.indexOf("___") === -1 && ans) pool.push({ ko: it.ko, ans: ans, type: s.type, sec: si });
       });
     });
     var box = document.getElementById("quiz");
@@ -129,7 +129,8 @@
         return;
       }
       var q = pool[Math.floor(Math.random() * pool.length)];
-      var others = pool.filter(function (p) { return p.type === q.type && p.ans !== q.ans; });
+      var others = pool.filter(function (p) { return p.sec === q.sec && p.ans !== q.ans; });
+      if (others.length < 3) others = pool.filter(function (p) { return p.type === q.type && p.ans !== q.ans; });
       others.sort(function () { return Math.random() - 0.5; });
       var opts = [q.ans].concat(others.slice(0, 3).map(function (o) { return o.ans; }));
       opts.sort(function () { return Math.random() - 0.5; });
