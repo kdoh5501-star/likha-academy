@@ -75,7 +75,7 @@
   }
   /* header and tab bar are static: keep the English and translate a copy */
   function chrome() {
-    document.querySelectorAll(".hdr .hnav a, .tabbar a, .logo .sub").forEach(function (a) {
+    document.querySelectorAll(".hdr .hnav a, .tabbar a, .logo .sub, .sitefoot p").forEach(function (a) {
       [].slice.call(a.childNodes).forEach(function (n) { if (n.nodeType === 3 && n.nodeValue.trim()) { if (n._en == null) n._en = n.nodeValue; n.nodeValue = tr(n._en.trim()); } });
     });
     document.documentElement.lang = { en: "en", tl: "tl", ko: "ko" }[lang()];
@@ -180,13 +180,13 @@
   function ot() {
     app.innerHTML = crumbs([["Home", "#/"], ["Orientation"]]) +
       '<section class="phero ko"><div><p class="eyebrow">Start here</p><h1>Orientation</h1><p class="lead">Why we learn Korean and video editing, where it can take you, and how the course works.</p></div></section>' +
+      '<p class="notice card">This course is free. LIKHA Academy teaches Korean and video editing only. It does not recruit, select or send anyone to work or train in Korea, and charges no fees.</p>' +
       '<section class="sec"><h2>Korean opens three doors</h2><div class="otgrid">' +
       '<div class="card otc"><b>1</b><h3>Work from home</h3><p class="sm">Upload your portfolio on LIKHA and take orders from Korean clients, without leaving the Philippines.</p></div>' +
-      '<div class="card otc"><b>2</b><h3>Pass a Korean test</h3><p class="sm">TOPIK proves your Korean. EPS-TOPIK is the test you need for an E-9 work visa in Korea.</p></div>' +
-      '<div class="card otc"><b>3</b><h3>Go to Korea</h3><p class="sm">Our goal: the best students come to Korea for advanced training.</p></div></div></section>' +
-      '<section class="sec"><h2>Pay in Korea, 2026</h2><div class="otgrid two"><div class="card otn"><p class="n">₩10,320</p><p class="sm muted">Minimum pay per hour</p></div><div class="card otn"><p class="n">₩2,156,880</p><p class="sm muted">Minimum pay per month, full time</p></div></div><p class="sm muted" style="margin-top:8px">The same minimum applies to foreign workers. Most jobs need Korean.</p></section>' +
+      '<div class="card otc"><b>2</b><h3>Pass a Korean test</h3><p class="sm">TOPIK proves your Korean. EPS-TOPIK is the test you need for an E-9 work visa in Korea. You register only through the DMW (eps.dmw.gov.ph).</p></div>' +
+      '<div class="card otc"><b>3</b><h3>Study further</h3><p class="sm">With a TOPIK score, you can apply on your own to Korean university language programs.</p></div></div></section>' +
       '<section class="sec"><h2>LIKHA is a marketplace, not a boss</h2><p class="sm muted">We do not hire you. You open your own shop on LIKHA with your profile and portfolio, and Korean clients choose you. The better your portfolio, the more orders you get.</p><div class="otgrid"><div class="card otc"><b>1</b><h3>Work from home</h3><p class="sm">All you need is your phone or a computer and the internet.</p></div><div class="card otc"><b>2</b><h3>Clients pick you</h3><p class="sm">Korean clients see your portfolio and order from you directly.</p></div><div class="card otc"><b>3</b><h3>Grow your income</h3><p class="sm">Better Korean and better edits bring more jobs and bigger jobs.</p></div></div></section>' +
-      '<section class="sec"><h2>Your path</h2><ol class="path"><li><b>Month 1</b> Basics</li><li><b>Month 2</b> Everyday and workplace Korean</li><li><b>Month 3</b> Exam and client ready</li><li><b>LIKHA</b> Upload your portfolio, take orders</li><li><b>Korean test</b> TOPIK or EPS-TOPIK</li><li class="acc"><b>Korea</b> Training and work</li></ol><p class="sm muted">Each month ends with a test. Pass it to go on to the next month.</p></section>' +
+      '<section class="sec"><h2>Your path</h2><ol class="path"><li><b>Month 1</b> Basics</li><li><b>Month 2</b> Everyday and workplace Korean</li><li><b>Month 3</b> Exam and client ready</li><li><b>LIKHA</b> Upload your portfolio, take orders</li><li><b>Korean test</b> TOPIK or EPS-TOPIK</li><li class="acc"><b>Next</b> Your choice: freelance on LIKHA, study further, or apply for EPS through the DMW</li></ol><p class="sm muted">Each month ends with a test. Pass it to go on to the next month.</p></section>' +
       '<section class="sec"><h2>How each week works</h2><div class="days"><div><b>Saturday · in person</b><span>8:00 to 11:00 Korean, 11:00 to 2:00 video. Up to 10 students. First class: Saturday, November 21 (orientation 8:00 to 10:00).</span></div><div><b>Tuesday · online</b><span>Korean 3 hours, then video 3 hours. Watch live on YouTube.</span></div></div></section>' +
       '<section class="sec"><h2>Bring every class</h2><ul class="plain"><li>Your phone, charged, with CapCut installed</li><li>Earphones, a notebook and a pen</li><li>Your homework sheets</li></ul></section>' +
       '<section class="sec"><h2>Class rules</h2><ul class="plain"><li>Come on time. Tell us if you will miss a class.</li><li>Practice every day, even 20 minutes. Do the 50 quiz.</li><li>Mistakes are normal. Ask questions and help each other.</li><li>Use only your own clips or free footage.</li></ul></section>' +

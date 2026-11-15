@@ -440,3 +440,10 @@ main { padding-top: 16px; padding-bottom: 40px; outline: none; }
 .aich { display: flex; gap: 14px; padding: 16px; border-color: var(--brand); background: var(--brand-soft); }
 .aich p { margin: 4px 0 6px; } .aich a { color: var(--brand); font-weight: 700; font-size: 14px; }
 .aitag { flex: none; width: 40px; height: 40px; border-radius: 10px; background: var(--brand); color: #fff; font-weight: 900; display: grid; place-items: center; }
+
+/* ---------- free / no-recruitment notice ---------- */
+.notice { padding: 12px 14px; margin: 0 0 14px; font-size: 13px; line-height: 1.55; background: var(--bg-2); border-color: var(--line); color: var(--fg-2); }
+.sitefoot { border-top: 1px solid var(--line); background: var(--bg-2); padding: 18px 0 22px; }
+.sitefoot p { font-size: 12px; line-height: 1.6; color: var(--muted); max-width: 80ch; }
+.inquiz .sitefoot { display: none; }
+@media print { .sitefoot { display: none; } }
