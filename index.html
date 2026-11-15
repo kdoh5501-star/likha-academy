@@ -2,21 +2,34 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#0e1a2b">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1F2A6B">
 <title>LIKHA Academy</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%231F2A6B'/%3E%3Crect x='9' y='8' width='5' height='16' rx='2' fill='%23fff'/%3E%3Crect x='9' y='19' width='13' height='5' rx='2' fill='%23fff'/%3E%3Ccircle cx='23' cy='10' r='3' fill='%23E8461F'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header class="top">
-  <a href="#/" class="brand"><span class="mark" aria-hidden="true">한</span><span class="name">LIKHA Academy</span></a>
-  <nav aria-label="Main"><a href="#/">Home</a><a href="#/quiz" class="navq">50 Quiz</a><a href="#/resources">Books</a></nav>
+<header class="hdr">
+  <div class="wrap hdr-in">
+    <a class="logo" href="#/" aria-label="LIKHA Academy home"><span class="mark"><i></i></span><span class="word">LIKHA</span><span class="sub">Academy</span></a>
+    <nav class="hnav" aria-label="Courses">
+      <a href="#/ko" data-nav="ko">Korean</a>
+      <a href="#/vid" data-nav="vid">Video editing</a>
+    </nav>
+  </div>
 </header>
-<main id="app" tabindex="-1"></main>
-<footer class="foot">Free course. Korean and video editing for phones.</footer>
+<main id="app" class="wrap" tabindex="-1"></main>
+<nav class="tabbar" aria-label="Main">
+  <a href="#/" data-tab="home"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11 12 4l9 7v9H4z"/></svg>Home</a>
+  <a href="#/ko" data-tab="ko"><span class="tk">한</span>Korean</a>
+  <a href="#/vid" data-tab="vid"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="13" height="12" rx="2"/><path d="m16 10 5-3v10l-5-3z"/></svg>Video</a>
+  <a href="#/quiz/ko" data-tab="quiz"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11l2 2 4-4"/><rect x="4" y="4" width="16" height="16" rx="3"/></svg>50 Quiz</a>
+</nav>
 <script src="data.js"></script>
 <script src="data2.js"></script>
 <script src="vq.js"></script>
+<script src="vlessons.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
