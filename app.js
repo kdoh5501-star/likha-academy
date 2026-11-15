@@ -140,7 +140,7 @@
       (week(n + 1) ? '<a class="btn btn-line" href="' + base + (n + 1) + '">' + WS(n + 1) + " ›</a>" : "<span></span>") + "</div>";
   }
   function weekList(track) {
-    var h = "", c = cur();
+    var h = '<div class="phases">', c = cur();
     C.phases.forEach(function (p) {
       h += '<section class="phase"><div class="ph-head"><h2>' + esc(p.name) + '</h2></div><p class="muted sm">' + esc(track === "ko" ? p.ko : p.vid) + '</p><ul class="wlist">';
       p.weeks.forEach(function (n) {
@@ -149,7 +149,7 @@
       });
       h += "</ul></section>";
     });
-    return h;
+    return h + "</div>";
   }
   function countWords(w) { var n = 0; w.ko.sections.forEach(function (s) { n += s.items.length; }); return n; }
   function checks(id, items) {
@@ -162,16 +162,14 @@
     C.weeks.forEach(function (x) { totalWords += countWords(x); });
     var lessons = 0; Object.keys(VL).forEach(function (k) { lessons += VL[k].length; });
     app.innerHTML =
-      '<section class="hero"><p class="eyebrow">Free · three 1-month courses</p><h1>Learn Korean and video editing on your phone</h1>' +
+      '<div class="htop"><section class="hero"><p class="eyebrow">Free · three 1-month courses</p><h1>Learn Korean and video editing on your phone</h1>' +
       '<p class="lead">Korean and video editing, taught together. Each month is a complete 4-week course: Saturday in person at 8:00, then Tuesday online. Month 1 starts Saturday, November 21. Finish Month 1, then go on to Month 2 and Month 3.</p>' + weekPick() + "</section>" +
-      nextClass() + installCard() + '<a class="otbanner card" href="#/ot"><span class="otdot">OT</span><span><b>Start here: Orientation</b><span class="sm muted">Why Korean, where it can take you, how the course works</span></span><span class="arr">›</span></a>' +
+      '<div class="hside">' + nextClass() + '<section class="today card"><div><p class="sm muted">Today\'s Korean quiz</p><p class="tnum"><b>' + Math.min(st.t.done, 50) + '</b> / 50' + (st.streak ? ' <span class="chip ok">' + st.streak + "-day streak</span>" : "") + '</p><div class="meter"><span style="width:' + Math.min(100, st.t.done * 2) + '%"></span></div></div>' + '<a class="btn btn-accent" href="#/quiz/ko">Start 50 questions</a></section>' + '</div></div>' + installCard() + '<a class="otbanner card" href="#/ot"><span class="otdot">OT</span><span><b>Start here: Orientation</b><span class="sm muted">Why Korean, where it can take you, how the course works</span></span><span class="arr">›</span></a>' +
       '<div class="courses">' +
       '<a class="course ko" href="#/ko"><span class="cbig" aria-hidden="true">한</span><span class="ctag">Course 1</span><h2>Korean</h2><p>From Hangul to TOPIK I and EPS-TOPIK level. Tap any word to hear it.</p>' +
       '<span class="cstats"><b>' + totalWords + '</b> words and phrases · <b>3</b> months</span><span class="ccta">This week: ' + esc(t.ko) + " ›</span></a>" +
       '<a class="course vid" href="#/vid"><span class="cbig play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span><span class="ctag">Course 2</span><h2>Video editing</h2><p>CapCut on your phone. Watch the lesson, then practice the same edit.</p>' +
       '<span class="cstats"><b>' + lessons + '</b> video lessons · <b>3</b> months</span><span class="ccta">This week: ' + esc(t.vid) + " ›</span></a></div>" +
-      '<section class="today card"><div><p class="sm muted">Today\'s Korean quiz</p><p class="tnum"><b>' + Math.min(st.t.done, 50) + '</b> / 50' + (st.streak ? ' <span class="chip ok">' + st.streak + "-day streak</span>" : "") + '</p><div class="meter"><span style="width:' + Math.min(100, st.t.done * 2) + '%"></span></div></div>' +
-      '<a class="btn btn-accent" href="#/quiz/ko">Start 50 questions</a></section>' +
       '<p class="more"><a href="#/hw/' + c + '">Print this week\'s homework</a> · <a href="#/books">Textbooks and past papers</a></p>';
     bindWeekPick(home); bindInstall();
   }
@@ -194,6 +192,18 @@
       '<div class="endcta card"><div><b>Ready?</b><p class="sm muted">Start with Month 1, Week 1.</p></div><a class="btn btn-accent" href="#/ko/1">Start Korean</a></div>';
   }
 
+
+  /* ---------- desktop side panel for week pages ---------- */
+  function sidePanel(track, n) {
+    var w = week(n), t = titles(w), h = '<div class="sidecard card"><p class="sm muted">' + WL(n) + "</p><b>" + esc(track === "ko" ? t.ko : t.vid) + '</b><div class="sacts">';
+    if (track === "ko") h += '<a class="btn btn-brand btn-block" href="#/cards/' + n + '">Flashcards</a><a class="btn btn-accent btn-block" href="#/quiz/ko/' + n + '/only">' + WS(n) + ' quiz</a>' + (n === 1 ? '<a class="btn btn-line btn-block" href="#/hangul">Hangul chart</a>' : "");
+    else h += '<a class="btn btn-brand btn-block" href="#/quiz/vid/' + n + '/only">' + WS(n) + ' quiz</a>';
+    h += '<a class="btn btn-line btn-block" href="#/' + (track === "ko" ? "vid" : "ko") + "/" + n + '">' + (track === "ko" ? "Video editing" : "Korean") + ' · ' + WS(n) + '</a><a class="btn btn-ghost btn-block" href="#/hw/' + n + '">Print this week\'s homework</a></div></div>';
+    C.phases.forEach(function (p) {
+      h += '<div class="sidecard card"><p class="sm"><b>' + esc(p.name) + '</b></p><ul class="sweeks">' + p.weeks.map(function (m) { var x = titles(week(m)); return '<li><a href="#/' + track + "/" + m + '"' + (m === n ? ' class="on"' : "") + '><span>' + WS(m) + "</span>" + esc(track === "ko" ? x.ko : x.vid) + "</a></li>"; }).join("") + "</ul></div>";
+    });
+    return '<aside class="wside">' + h + "</aside>";
+  }
   /* ---------- Korean course ---------- */
   function koHome() {
     var st = stats();
@@ -356,7 +366,7 @@
         '<p class="qk">' + esc(q.kind) + "</p>";
       if (q.listen) h += '<button class="play" data-say="' + esc(q.listen) + '">' + SPK + " Play again</button>";
       else h += '<p class="qp' + (q.big ? " qbig" : "") + '">' + esc(q.prompt) + "</p>";
-      h += '<div class="opts">' + q.opts.map(function (o, j) { return '<button class="opt' + (q.koOpts ? " koo" : "") + '" data-i="' + j + '">' + esc(o) + "</button>"; }).join("") + '</div><div class="fb" aria-live="polite"></div></section>';
+      h += '<div class="opts">' + q.opts.map(function (o, j) { return '<button class="opt' + (q.koOpts ? " koo" : "") + '" data-i="' + j + '">' + esc(o) + "</button>"; }).join("") + '</div><div class="fb" aria-live="polite"></div><p class="kbd">Keyboard: 1 to 4 to answer, Enter for next</p></section>';
       app.innerHTML = h;
       if (q.listen) setTimeout(function () { speak(q.listen); }, 250);
       app.querySelectorAll(".opt").forEach(function (b) { b.addEventListener("click", function () { answer(+b.getAttribute("data-i")); }); });
@@ -455,7 +465,7 @@
         '<div class="fdir"><button data-d="ko"' + (dir === "ko" ? ' class="on"' : "") + '>Korean first</button><button data-d="en"' + (dir === "en" ? ' class="on"' : "") + ">English first</button></div>" +
         '<button class="fcard card" id="fc">' + front + '<span class="fhint sm muted">Tap to turn over</span><span class="fback" hidden><span class="fko2">' + esc(it.ko) + '</span><span class="rm">' + esc(it.rom) + '</span><span class="en">' + esc(it.en) + "</span></span></button>" +
         '<div class="frow" id="fr" hidden><button class="btn btn-line btn-lg" id="fa">Again</button><button class="btn btn-accent btn-lg" id="fg">I knew it</button></div>' +
-        '<div class="frow"><button class="btn btn-ghost" id="fl">' + SPK + ' Listen</button>' + (SR ? '<button class="btn btn-ghost" id="fs">🎤 Say it</button>' : "") + '</div><p class="sm center" id="fsr" aria-live="polite"></p></section>';
+        '<div class="frow"><button class="btn btn-ghost" id="fl">' + SPK + ' Listen</button>' + (SR ? '<button class="btn btn-ghost" id="fs">🎤 Say it</button>' : "") + '</div><p class="sm center" id="fsr" aria-live="polite"></p><p class="kbd">Keyboard: Space to turn, 1 Again, 2 I knew it</p></section>';
       if (dir === "ko") speak(it.ko);
       var fc = document.getElementById("fc");
       fc.addEventListener("click", function () { fc.classList.add("open"); fc.querySelector(".fback").hidden = false; fc.querySelector(".fhint").hidden = true; document.getElementById("fr").hidden = false; speak(it.ko); });
@@ -565,6 +575,22 @@
     if (x) x.addEventListener("click", function () { save("lk:noinst", true); var c = document.getElementById("instc"); if (c) c.remove(); });
   }
 
+
+  /* ---------- keyboard shortcuts on desktop (quiz and flashcards) ---------- */
+  document.addEventListener("keydown", function (e) {
+    if (!document.body.classList.contains("inquiz") || e.altKey || e.ctrlKey || e.metaKey) return;
+    var t = e.target; if (t && /INPUT|TEXTAREA|SELECT/.test(t.tagName)) return;
+    var k = e.key, opts = app.querySelectorAll(".opt:not([disabled])");
+    if (opts.length && /^[1-4]$/.test(k) && opts[+k - 1]) { e.preventDefault(); opts[+k - 1].click(); return; }
+    if (k === "Enter") { var nx = app.querySelector(".next"); if (nx && document.activeElement !== nx) { e.preventDefault(); nx.click(); return; } }
+    var fc = document.getElementById("fc");
+    if (fc) {
+      var open = !document.getElementById("fr").hidden;
+      if ((k === " " || k === "Enter") && !open) { e.preventDefault(); fc.click(); return; }
+      if (open && (k === "1" || k === "ArrowLeft")) { e.preventDefault(); document.getElementById("fa").click(); return; }
+      if (open && (k === "2" || k === "ArrowRight")) { e.preventDefault(); document.getElementById("fg").click(); return; }
+    }
+  });
   /* ---------- router ---------- */
   function setNav(sec) {
     document.querySelectorAll("[data-nav]").forEach(function (a) { a.classList.toggle("on", a.getAttribute("data-nav") === sec); });
@@ -586,8 +612,8 @@
     var h = location.hash, m;
     if (canSpeak) try { speechSynthesis.cancel(); } catch (e) {}
     document.body.classList.remove("inquiz");
-    if ((m = h.match(/^#\/ko\/(\d+)$/)) && week(+m[1])) { app.innerHTML = koWeek(week(+m[1])); setNav("ko"); }
-    else if ((m = h.match(/^#\/vid\/(\d+)$/)) && week(+m[1])) { app.innerHTML = vidWeek(week(+m[1])); setNav("vid"); }
+    if ((m = h.match(/^#\/ko\/(\d+)$/)) && week(+m[1])) { app.innerHTML = '<div class="wlay"><div class="wmain">' + koWeek(week(+m[1])) + "</div>" + sidePanel("ko", +m[1]) + "</div>"; setNav("ko"); }
+    else if ((m = h.match(/^#\/vid\/(\d+)$/)) && week(+m[1])) { app.innerHTML = '<div class="wlay"><div class="wmain">' + vidWeek(week(+m[1])) + "</div>" + sidePanel("vid", +m[1]) + "</div>"; setNav("vid"); }
     else if ((m = h.match(/^#\/hw\/(\d+)$/)) && week(+m[1])) { app.innerHTML = hw(week(+m[1])); bindWeekPick(function () { location.hash = "#/hw/" + cur(); }); setNav("home"); }
     else if (h === "#/ko") { koHome(); setNav("ko"); }
     else if (h === "#/vid") { vidHome(); setNav("vid"); }

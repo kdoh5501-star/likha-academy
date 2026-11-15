@@ -759,7 +759,9 @@ window.I18N = {
 "No words found.": "Walang nakitang salita.",
 "Foundation": "Pundasyon",
 "Video editing quiz": "Video editing quiz",
-"Choose your language": "Piliin ang wika"
+"Choose your language": "Piliin ang wika",
+"Keyboard: 1 to 4 to answer, Enter for next": "Keyboard: 1 hanggang 4 para sumagot, Enter para sa susunod",
+"Keyboard: Space to turn, 1 Again, 2 I knew it": "Keyboard: Space para baligtarin, 1 Ulitin, 2 Alam ko ito"
 },
 "ko": {
 "Academy": "아카데미",
@@ -1439,6 +1441,8 @@ window.I18N = {
 "Could not hear you. Allow the microphone and try again.": "잘 안 들려요. 마이크를 허용하고 다시 해 보세요.",
 "No words found.": "찾는 단어가 없어요.",
 "Foundation": "기초",
-"Choose your language": "언어를 선택하세요"
+"Choose your language": "언어를 선택하세요",
+"Keyboard: 1 to 4 to answer, Enter for next": "키보드: 1~4로 답 선택, Enter로 다음",
+"Keyboard: Space to turn, 1 Again, 2 I knew it": "키보드: Space로 뒤집기, 1 다시, 2 알았어요"
 }
 };

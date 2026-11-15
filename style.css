@@ -345,3 +345,73 @@ main { padding-top: 16px; padding-bottom: 40px; outline: none; }
 .lpbox button span { font-size: 13px; color: var(--muted); }
 .lpbox button:first-of-type { border-color: var(--brand); background: var(--brand-soft); }
 .lpn { font-size: 12px; color: var(--muted); text-align: center; margin-top: 4px; }
+
+/* ---------- desktop layout ---------- */
+#app:focus, #app:focus-visible { outline: none; }
+.kbd { display: none; }
+.wside { display: none; }
+@media (min-width: 1024px) {
+  :root { --max: 1200px; }
+  body { font-size: 16px; }
+  .wrap { padding-left: 32px; padding-right: 32px; }
+  main { padding-top: 28px; padding-bottom: 72px; }
+  .hdr-in { height: 68px; }
+  .hnav a { font-size: 15px; }
+  /* home */
+  .htop { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 32px; align-items: start; margin-bottom: 12px; }
+  .hero { padding: 28px 0 0; }
+  .hero h1 { font-size: 44px; line-height: 1.15; }
+  .hero .lead { font-size: 17px; margin-top: 14px; max-width: 60ch; }
+  .hside .nextc { margin-top: 28px; flex-wrap: wrap; }
+  .hside .nextc .btn { width: 100%; }
+  .hside .today { margin-top: 12px; }
+  .courses { gap: 20px; }
+  .course { min-height: 240px; }
+  .otbanner { margin: 18px 0; }
+  /* page heroes */
+  .phero { padding: 32px 36px; } .phero h1 { font-size: 38px; } .phero .lead { font-size: 17px; max-width: 64ch; }
+  .tools3 { gap: 16px; }
+  .phases { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; align-items: start; }
+  .phases .phase { margin-top: 18px; }
+  .phases .wlist a { padding: 12px; }
+  .phases .wmeta { display: none; }
+  /* week pages: content + sticky side panel */
+  .wlay { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 32px; align-items: start; }
+  .wside { display: flex; flex-direction: column; gap: 14px; position: sticky; top: 92px; max-height: calc(100vh - 110px); overflow-y: auto; padding-bottom: 6px; }
+  .sidecard { padding: 16px; }
+  .sidecard > b { display: block; font-size: 17px; margin: 2px 0 12px; }
+  .sacts { display: grid; gap: 8px; }
+  .sweeks { display: grid; gap: 2px; margin-top: 8px; }
+  .sweeks a { display: flex; gap: 10px; padding: 7px 8px; border-radius: var(--r-sm); font-size: 14px; color: var(--fg-2); }
+  .sweeks a span { flex: none; width: 46px; font-size: 12px; font-weight: 700; color: var(--faint); padding-top: 2px; }
+  .sweeks a:hover { background: var(--bg-2); }
+  .sweeks a.on { background: var(--brand-soft); color: var(--brand); font-weight: 700; } .sweeks a.on span { color: var(--brand); }
+  .wmain .wnav, .wmain > .endcta { display: none; }
+  .whead h1 { font-size: 36px; }
+  .words { display: grid; grid-template-columns: 1fr 1fr; }
+  .words li + li { border-top: 0; }
+  .words li { border-bottom: 1px solid var(--line); }
+  .words li:nth-child(odd) { border-right: 1px solid var(--line); }
+  .words li:nth-last-child(-n+2):nth-child(odd), .words li:last-child { border-bottom: 0; }
+  #wres .words { grid-template-columns: 1fr 1fr; }
+  .tiles { grid-template-columns: repeat(auto-fill, minmax(86px, 1fr)); }
+  .lessons { grid-template-columns: repeat(2, 1fr); gap: 18px; }
+  .gram { grid-template-columns: repeat(2, 1fr); }
+  /* quiz and flashcards */
+  .quiz, .fcwrap { max-width: 720px; }
+  .quiz .qbig { font-size: 64px; }
+  .opts { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .opt { min-height: 64px; font-size: 17px; }
+  .kbd { display: block; text-align: center; font-size: 12px; color: var(--faint); margin-top: 16px; }
+  .fcard { min-height: 340px; } .fko { font-size: 56px; } .fen { font-size: 32px; }
+  /* misc */
+  .kpis b { font-size: 30px; }
+  .bars { height: 200px; }
+  .builder { grid-template-columns: 220px 1fr; }
+  .bsyl { width: 190px; height: 190px; font-size: 110px; }
+  .syltab td button { height: 54px; font-size: 22px; }
+}
+@media (min-width: 1280px) {
+  .lessons { grid-template-columns: repeat(3, 1fr); }
+  .wmain .lessons { grid-template-columns: repeat(2, 1fr); }
+}
