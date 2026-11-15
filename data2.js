@@ -5,9 +5,9 @@
   function px(q) { return "https://www.pexels.com/search/videos/" + encodeURIComponent(q) + "/"; }
 
   C.phases = [
-    { n: 1, weeks: [1, 2, 3, 4], name: "Foundation", ko: "Hangul, survival Korean and first 400 words. Aim: TOPIK I level 1 basics.", vid: "CapCut basics, talking videos, captions, first client job." },
-    { n: 2, weeks: [5, 6, 7, 8], name: "Everyday and workplace Korean", ko: "Verb endings, past and future, workplace and safety words from the EPS-TOPIK book. Aim: TOPIK I level 1 pass.", vid: "Short-form formats: hooks, vlog and mukbang edits, info shorts, color and sound." },
-    { n: 3, weeks: [9, 10, 11, 12], name: "Exam and client ready", ko: "Level 2 grammar, mock tests for TOPIK I and EPS-TOPIK, video-industry Korean. Aim: TOPIK I level 2.", vid: "Thumbnails, long-form, AI tools, speed editing and a 3-video portfolio." }
+    { n: 1, weeks: [1, 2, 3, 4], name: "Month 1: Foundation", ko: "Hangul, survival Korean and first 400 words. Aim: TOPIK I level 1 basics.", vid: "CapCut basics, talking videos, captions, first client job." },
+    { n: 2, weeks: [5, 6, 7, 8], name: "Month 2: Everyday and workplace Korean", ko: "Verb endings, past and future, workplace and safety words from the EPS-TOPIK book. Aim: TOPIK I level 1 pass.", vid: "Short-form formats: hooks, vlog and mukbang edits, info shorts, color and sound." },
+    { n: 3, weeks: [9, 10, 11, 12], name: "Month 3: Exam and client ready", ko: "Level 2 grammar, mock tests for TOPIK I and EPS-TOPIK, video-industry Korean. Aim: TOPIK I level 2.", vid: "Thumbnails, long-form, AI tools, speed editing and a 3-video portfolio." }
   ];
 
   C.schedule = "Tuesday online and Saturday in person. Each day is 6 hours: Korean 3 hours, then video 3 hours.";
@@ -153,7 +153,7 @@
       ["Reference", "Korean daily vlog shorts", yt("브이로그 쇼츠 일상")],
       ["Footage", "Free clips: cooking and food", px("cooking food")],
       ["Korean", "Korean past tense", yt("korean past tense 았어요 었어요")]],
-    hw: { mon: { title: "Preview sheet", items: ["Learn the family words.", "Change 8 verbs from week 5 into the past tense.", "Plan your 12 vlog shots."] },
+    hw: { mon: { title: "Preview sheet", items: ["Learn the family words.", "Change 8 verbs from Month 2 Week 1 into the past tense.", "Plan your 12 vlog shots."] },
       wed: { title: "Practice sheet", items: ["Write 6 sentences about last weekend.", "Order 3 foods aloud with 주세요.", "Do the daily 50 quiz 3 times.", "Film your 12 shots."] } } },
 
   /* ---------------------------------------------------------- WEEK 7 */
@@ -227,9 +227,9 @@
         "Learn the color order: fix brightness and white balance first, then add a look.",
         "Match two clips filmed in different light.",
         "Learn sound clean-up: noise reduction, voice volume, and music ducking under speech.",
-        "Collect your best edits from weeks 5 to 7."] },
+        "Collect your best edits from Month 2 Weeks 1 to 3."] },
       sat: { title: "Saturday in person: polish and phase 2 portfolio", mins: 180, steps: [
-        "Pick your best week 5 to 7 edit and re-edit it to 60 seconds.",
+        "Pick your best Month 2 Week 1 to 3 edit and re-edit it to 60 seconds.",
         "Color-correct every clip so they match.",
         "Clean the sound: no noise, voice steady, music ducked.",
         "Export and add it to your portfolio folder."] },
@@ -407,7 +407,7 @@
       ["Korean", "TOPIK I full mock test", yt("TOPIK 1 full mock test")],
       ["Korean", "EPS-TOPIK mock test", yt("EPS TOPIK mock test")]],
     hw: { mon: { title: "Preview sheet", items: ["Learn the contract and payment words.", "Choose your 3 portfolio videos.", "Draft your profile."] },
-      wed: { title: "Practice sheet", items: ["Take one full TOPIK I past paper.", "Take one EPS-TOPIK online mock test.", "Do the daily 50 quiz every day.", "Practice the 6 client chats from week 4 aloud."] } } }
+      wed: { title: "Practice sheet", items: ["Take one full TOPIK I past paper.", "Take one EPS-TOPIK online mock test.", "Do the daily 50 quiz every day.", "Practice the 6 client chats from Month 1 Week 4 aloud."] } } }
   );
 
   C.weeks.forEach(function (w) {

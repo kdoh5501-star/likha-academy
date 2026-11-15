@@ -12,6 +12,9 @@
   function shuffle(a) { a = a.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
   function week(n) { for (var i = 0; i < C.weeks.length; i++) if (C.weeks[i].n === n) return C.weeks[i]; return null; }
   function cur() { return load("lk:cur", 1); }
+  function M(n) { return Math.ceil(n / 4); }
+  function WL(n) { return "Month " + M(n) + " · Week " + ((n - 1) % 4 + 1); }
+  function WS(n) { return "M" + M(n) + " W" + ((n - 1) % 4 + 1); }
   function titles(w) { var p = w.title.split(/\.\s+/); return { ko: p[0].replace(/\.$/, ""), vid: (p[1] || p[0]).replace(/\.$/, "") }; }
 
   /* ---------- speech ---------- */
@@ -52,21 +55,21 @@
   /* ---------- shared pieces ---------- */
   function crumbs(list) { return '<nav class="crumbs" aria-label="Breadcrumb">' + list.map(function (c) { return c[1] ? '<a href="' + c[1] + '">' + esc(c[0]) + "</a>" : "<span>" + esc(c[0]) + "</span>"; }).join("<i>›</i>") + "</nav>"; }
   function weekPick() {
-    return '<label class="wpick">My class is in week <select id="curw">' + C.weeks.map(function (x) { return '<option value="' + x.n + '"' + (x.n === cur() ? " selected" : "") + ">" + x.n + "</option>"; }).join("") + "</select></label>";
+    return '<label class="wpick">My class is in <select id="curw">' + C.weeks.map(function (x) { return '<option value="' + x.n + '"' + (x.n === cur() ? " selected" : "") + ">" + WL(x.n) + "</option>"; }).join("") + "</select></label>";
   }
   function bindWeekPick(cb) { var s = document.getElementById("curw"); if (s) s.addEventListener("change", function () { save("lk:cur", +s.value); cb(); }); }
   function pattern(rows, title) { return '<details class="pat"><summary>' + esc(title) + "</summary><table>" + rows.map(function (r) { return "<tr><th>" + esc(r[0]) + "</th><td>" + esc(r[1]) + "</td></tr>"; }).join("") + "</table></details>"; }
   function weekNav(base, n) {
-    return '<div class="wnav">' + (week(n - 1) ? '<a class="btn btn-line" href="' + base + (n - 1) + '">‹ Week ' + (n - 1) + "</a>" : "<span></span>") +
-      (week(n + 1) ? '<a class="btn btn-line" href="' + base + (n + 1) + '">Week ' + (n + 1) + " ›</a>" : "<span></span>") + "</div>";
+    return '<div class="wnav">' + (week(n - 1) ? '<a class="btn btn-line" href="' + base + (n - 1) + '">‹ ' + WS(n - 1) + "</a>" : "<span></span>") +
+      (week(n + 1) ? '<a class="btn btn-line" href="' + base + (n + 1) + '">' + WS(n + 1) + " ›</a>" : "<span></span>") + "</div>";
   }
   function weekList(track) {
     var h = "", c = cur();
     C.phases.forEach(function (p) {
-      h += '<section class="phase"><div class="ph-head"><span class="chip">Phase ' + p.n + '</span><h2>' + esc(p.name) + '</h2></div><p class="muted sm">' + esc(track === "ko" ? p.ko : p.vid) + '</p><ul class="wlist">';
+      h += '<section class="phase"><div class="ph-head"><h2>' + esc(p.name) + '</h2></div><p class="muted sm">' + esc(track === "ko" ? p.ko : p.vid) + '</p><ul class="wlist">';
       p.weeks.forEach(function (n) {
         var w = week(n), t = titles(w), meta = track === "ko" ? countWords(w) + " words" : (VL[n] || []).length + " video lessons";
-        h += '<li><a href="#/' + track + "/" + n + '"' + (n === c ? ' class="on"' : "") + '><span class="wnum">' + n + '</span><span class="wbody"><b>' + esc(track === "ko" ? t.ko : t.vid) + '</b><span class="muted sm">' + esc(track === "ko" ? w.goalKo : w.goalVid) + '</span></span><span class="wmeta">' + meta + (n === c ? '<em>Now</em>' : "") + "</span></a></li>";
+        h += '<li><a href="#/' + track + "/" + n + '"' + (n === c ? ' class="on"' : "") + '><span class="wnum"><small>W</small>' + ((n - 1) % 4 + 1) + '</span><span class="wbody"><b>' + esc(track === "ko" ? t.ko : t.vid) + '</b><span class="muted sm">' + esc(track === "ko" ? w.goalKo : w.goalVid) + '</span></span><span class="wmeta">' + meta + (n === c ? '<em>Now</em>' : "") + "</span></a></li>";
       });
       h += "</ul></section>";
     });
@@ -83,13 +86,13 @@
     C.weeks.forEach(function (x) { totalWords += countWords(x); });
     var lessons = 0; Object.keys(VL).forEach(function (k) { lessons += VL[k].length; });
     app.innerHTML =
-      '<section class="hero"><p class="eyebrow">Free 12-week course</p><h1>Learn Korean and video editing on your phone</h1>' +
-      '<p class="lead">Two separate courses. Pick one to start. Your class meets every Tuesday online and every Saturday in person.</p>' + weekPick() + "</section>" +
+      '<section class="hero"><p class="eyebrow">Free · three 1-month courses</p><h1>Learn Korean and video editing on your phone</h1>' +
+      '<p class="lead">Korean and video editing, taught together. Each month is a complete 4-week course: Tuesday online and Saturday in person. Finish Month 1, then go on to Month 2 and Month 3.</p>' + weekPick() + "</section>" +
       '<div class="courses">' +
       '<a class="course ko" href="#/ko"><span class="cbig" aria-hidden="true">한</span><span class="ctag">Course 1</span><h2>Korean</h2><p>From Hangul to TOPIK I and EPS-TOPIK level. Tap any word to hear it.</p>' +
-      '<span class="cstats"><b>' + totalWords + '</b> words and phrases · <b>12</b> weeks</span><span class="ccta">This week: ' + esc(t.ko) + " ›</span></a>" +
+      '<span class="cstats"><b>' + totalWords + '</b> words and phrases · <b>3</b> months</span><span class="ccta">This week: ' + esc(t.ko) + " ›</span></a>" +
       '<a class="course vid" href="#/vid"><span class="cbig play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span><span class="ctag">Course 2</span><h2>Video editing</h2><p>CapCut on your phone. Watch the lesson, then practice the same edit.</p>' +
-      '<span class="cstats"><b>' + lessons + '</b> video lessons · <b>12</b> weeks</span><span class="ccta">This week: ' + esc(t.vid) + " ›</span></a></div>" +
+      '<span class="cstats"><b>' + lessons + '</b> video lessons · <b>3</b> months</span><span class="ccta">This week: ' + esc(t.vid) + " ›</span></a></div>" +
       '<section class="today card"><div><p class="sm muted">Today\'s Korean quiz</p><p class="tnum"><b>' + Math.min(st.t.done, 50) + '</b> / 50' + (st.streak ? ' <span class="chip ok">' + st.streak + "-day streak</span>" : "") + '</p><div class="meter"><span style="width:' + Math.min(100, st.t.done * 2) + '%"></span></div></div>' +
       '<a class="btn btn-accent" href="#/quiz/ko">Start 50 questions</a></section>' +
       '<p class="more"><a href="#/hw/' + c + '">Print this week\'s homework</a> · <a href="#/books">Textbooks and past papers</a></p>';
@@ -109,8 +112,8 @@
   }
 
   function koWeek(w) {
-    var t = titles(w), h = crumbs([["Home", "#/"], ["Korean", "#/ko"], ["Week " + w.n]]);
-    h += '<header class="whead"><span class="wbadge">Week ' + w.n + '</span><h1>' + esc(t.ko) + '</h1><p class="lead">' + esc(w.goalKo) + '</p>' +
+    var t = titles(w), h = crumbs([["Home", "#/"], ["Korean", "#/ko"], [WL(w.n)]]);
+    h += '<header class="whead"><span class="wbadge">' + WL(w.n) + '</span><h1>' + esc(t.ko) + '</h1><p class="lead">' + esc(w.goalKo) + '</p>' +
       '<div class="days"><div><b>Tue · online</b><span>' + esc(w.ko.tue) + '</span></div><div><b>Sat · in person</b><span>' + esc(w.ko.sat) + "</span></div></div>" +
       '<p class="sm muted">Week check: ' + esc(w.test) + "</p>" + pattern(C.koPattern, "How each 3-hour Korean class runs") + "</header>";
     h += '<div id="voicenote">' + voiceNote() + "</div><p class=\"hint\">" + SPK + " Tap any word or sentence to hear it.</p>";
@@ -143,7 +146,7 @@
     }
     var kl = (w.links || []).filter(function (l) { return l[0] === "Korean"; });
     if (kl.length) h += '<section class="sec"><h2>Listen and learn more</h2><ul class="links">' + kl.map(function (l) { return '<li><a href="' + esc(l[2]) + '" target="_blank" rel="noopener">' + esc(l[1]) + "<span>YouTube ›</span></a></li>"; }).join("") + "</ul></section>";
-    h += '<div class="endcta card"><div><b>Check yourself</b><p class="sm muted">Questions from this week only.</p></div><a class="btn btn-accent" href="#/quiz/ko/' + w.n + '/only">Week ' + w.n + " quiz</a></div>";
+    h += '<div class="endcta card"><div><b>Check yourself</b><p class="sm muted">Questions from this week only.</p></div><a class="btn btn-accent" href="#/quiz/ko/' + w.n + '/only">' + WS(w.n) + " quiz</a></div>";
     h += weekNav("#/ko/", w.n);
     return h;
   }
@@ -159,8 +162,8 @@
   }
 
   function vidWeek(w) {
-    var v = w.vid, t = titles(w), les = VL[w.n] || [], h = crumbs([["Home", "#/"], ["Video editing", "#/vid"], ["Week " + w.n]]);
-    h += '<header class="whead"><span class="wbadge vid">Week ' + w.n + '</span><h1>' + esc(t.vid) + '</h1><p class="lead">' + esc(w.goalVid) + "</p>" + pattern(C.vidPattern, "How each 3-hour video class runs") + "</header>";
+    var v = w.vid, t = titles(w), les = VL[w.n] || [], h = crumbs([["Home", "#/"], ["Video editing", "#/vid"], [WL(w.n)]]);
+    h += '<header class="whead"><span class="wbadge vid">' + WL(w.n) + '</span><h1>' + esc(t.vid) + '</h1><p class="lead">' + esc(w.goalVid) + "</p>" + pattern(C.vidPattern, "How each 3-hour video class runs") + "</header>";
     h += '<section class="sec"><h2>Watch and practice <span class="cnt">' + les.length + '</span></h2><p class="muted sm">Tap a video to play it here. After each one, do the practice task in CapCut.</p><div class="lessons">';
     les.forEach(function (l, i) {
       var k = "lk:" + w.n + ":vl:" + i;
@@ -179,17 +182,17 @@
     h += "</div></div></section>";
     h += '<section class="sec"><div class="card deliver"><h2>' + esc(v.deliver.title) + '</h2><p class="muted sm">Check every item before you show your video.</p>' + checks("lk:" + w.n + ":d", v.deliver.checks) + "</div></section>";
     h += '<section class="sec"><h2>Common mistakes</h2><ul class="plain">' + v.mistakes.map(function (m) { return "<li>" + esc(m) + "</li>"; }).join("") + "</ul></section>";
-    h += '<div class="endcta card"><div><b>Check yourself</b><p class="sm muted">Video questions from this week.</p></div><a class="btn btn-brand" href="#/quiz/vid/' + w.n + '/only">Week ' + w.n + " quiz</a></div>";
+    h += '<div class="endcta card"><div><b>Check yourself</b><p class="sm muted">Video questions from this week.</p></div><a class="btn btn-brand" href="#/quiz/vid/' + w.n + '/only">' + WS(w.n) + " quiz</a></div>";
     h += weekNav("#/vid/", w.n);
     return h;
   }
 
   /* ---------- homework & books ---------- */
   function hw(w) {
-    var h = crumbs([["Home", "#/"], ["Homework week " + w.n]]) + '<div class="noprint">' + weekPick() + "</div>";
+    var h = crumbs([["Home", "#/"], ["Homework · " + WL(w.n)]]) + '<div class="noprint">' + weekPick() + "</div>";
     [["mon", "Given out Monday", "m"], ["wed", "Given out Wednesday", "w"]].forEach(function (x) {
       var s = w.hw[x[0]];
-      h += '<section class="sheet card"><p class="sm muted">LIKHA Academy · ' + x[1] + '</p><h2>Week ' + w.n + ": " + esc(s.title) + "</h2>" + checks("lk:" + w.n + ":" + x[2], s.items) + '<p class="sign">Name: ______________________</p></section>';
+      h += '<section class="sheet card"><p class="sm muted">LIKHA Academy · ' + x[1] + '</p><h2>' + WL(w.n) + ": " + esc(s.title) + "</h2>" + checks("lk:" + w.n + ":" + x[2], s.items) + '<p class="sign">Name: ______________________</p></section>';
     });
     return h + '<p class="center noprint"><button class="btn btn-brand" id="pr">Print</button></p>';
   }
@@ -244,7 +247,7 @@
 
   function quiz(track, mode, n) {
     var qs = buildQuiz(track, mode, n), i = 0, right = 0, missed = [], back = track === "vid" ? "#/vid" : "#/ko";
-    var title = mode === "review" ? "My mistakes" : track === "vid" ? (mode === "only" ? "Video quiz · week " + n : "Video quiz · weeks 1–" + n) : (mode === "only" ? "Korean quiz · week " + n : "Today's 50 · weeks 1–" + n);
+    var title = mode === "review" ? "My mistakes" : track === "vid" ? (mode === "only" ? "Video quiz · " + WS(n) : "Video quiz · up to " + WS(n)) : (mode === "only" ? "Korean quiz · " + WS(n) : "Today's 50 · up to " + WS(n));
     if (!qs.length) { app.innerHTML = '<section class="card center pad"><h1>No mistakes saved yet</h1><p class="muted">Questions you get wrong are saved here so you can try them again.</p><a class="btn btn-accent" href="#/quiz/ko">Start 50 questions</a></section>'; return; }
     function show() {
       var q = qs[i], h = '<section class="quiz"><div class="qbar"><a href="' + back + '">✕ Quit</a><span class="sm muted">' + esc(title) + '</span><b>' + (i + 1) + " / " + qs.length + '</b></div><div class="meter"><span style="width:' + (i / qs.length * 100) + '%"></span></div>' +

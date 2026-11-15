@@ -30,7 +30,7 @@ main { padding-top: 16px; padding-bottom: 40px; outline: none; }
 .btn-ghost { background: transparent; color: var(--fg-2); }
 .btn-lg { height: 52px; font-size: 16px; border-radius: var(--r); }
 .btn-block { width: 100%; }
-.chip { display: inline-flex; align-items: center; height: 24px; padding: 0 9px; border-radius: 99px; background: var(--brand-soft); color: var(--brand); font-size: 12px; font-weight: 700; }
+.chip { white-space: nowrap; flex: none; display: inline-flex; align-items: center; height: 24px; padding: 0 9px; border-radius: 99px; background: var(--brand-soft); color: var(--brand); font-size: 12px; font-weight: 700; }
 .chip.ok { background: var(--ok-soft); color: var(--ok); }
 .card { background: #fff; border: 1px solid var(--line); border-radius: var(--r); box-shadow: var(--shadow-sm); }
 
@@ -105,12 +105,13 @@ main { padding-top: 16px; padding-bottom: 40px; outline: none; }
 .steps3 b { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 13px; margin-bottom: 6px; }
 
 .phase { margin-top: 26px; }
-.ph-head { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+.ph-head { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 4px; }
 .ph-head h2 { font-size: 18px; }
 .wlist { display: grid; gap: 8px; margin-top: 10px; }
 .wlist a { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border: 1px solid var(--line); border-radius: var(--r); background: #fff; box-shadow: var(--shadow-sm); }
 .wlist a.on { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
-.wnum { flex: none; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 10px; background: var(--brand-soft); color: var(--brand); font-weight: 800; font-size: 17px; }
+.wnum small { font-size: 11px; font-weight: 700; margin-right: 1px; }
+.wnum { flex: none; display: flex; align-items: baseline; justify-content: center; padding-top: 9px; width: 40px; height: 40px; border-radius: 10px; background: var(--brand-soft); color: var(--brand); font-weight: 800; font-size: 17px; }
 .wlist a.on .wnum { background: var(--accent); color: #fff; }
 .wbody { flex: 1; display: flex; flex-direction: column; min-width: 0; }
 .wbody b { font-size: 15px; }

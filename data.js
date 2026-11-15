@@ -155,7 +155,7 @@ window.COURSE = {
           "Record a 30 to 45 second video of yourself talking about your work. Do not edit it yet."
         ]},
         sat: { title: "Saturday in person: captions, sound and pace", mins: 180, blocks: [
-          { t: "0 to 20", name: "Show last week's work", steps: ["Show your Week 1 video. Classmates say one good thing and one thing to fix."] },
+          { t: "0 to 20", name: "Show last week's work", steps: ["Show your last week's video. Classmates say one good thing and one thing to fix."] },
           { t: "20 to 40", name: "Teacher demo", steps: ["Cut pauses with split and delete.", "Add extra footage on a second layer.", "Turn on auto captions and fix a wrong word."] },
           { t: "40 to 80", name: "Guided practice", steps: ["Cut every pause longer than half a second in your recording.", "Add 2 pieces of extra footage while you speak.", "Generate captions and correct every mistake."] },
           { t: "80 to 90", name: "Break", steps: [] },
@@ -270,7 +270,7 @@ window.COURSE = {
           "Say all 5 -겠습니다 phrases out loud 3 times.",
           "Write a 3-line prompt for the promo you will make.",
           "Collect 3 photos or clips of your own for the promo.",
-          "Fix the 2 problems your teacher wrote down on your Week 2 video."
+          "Fix the 2 problems your teacher wrote down on your last week's video."
         ]}
       }
     },
@@ -368,10 +368,10 @@ window.COURSE = {
           "Read the brief for five facts: length, platform, style, deadline, and number of revisions. If one is missing, ask before you start.",
           "Name your files clearly, for example clientname_project_v1. Keep every version.",
           "Deliver by link. Send a short message in Korean using your chat templates.",
-          "Plan your final project: pick your best video from Weeks 2 and 3 or start a new one from the mock client brief."
+          "Plan your final project: pick your best video from Weeks 2 and 3 of this month or start a new one from the mock client brief."
         ]},
         sat: { title: "Saturday in person: a full client job", mins: 180, blocks: [
-          { t: "0 to 20", name: "Show and review", steps: ["Show your Week 3 promo and list what you will improve."] },
+          { t: "0 to 20", name: "Show and review", steps: ["Show your last week's promo and list what you will improve."] },
           { t: "20 to 40", name: "Receive the brief", steps: ["Your teacher plays the client and gives a mock brief in Korean and English.", "Write down the five facts from the brief and ask one question."] },
           { t: "40 to 80", name: "First version", steps: ["Build the first version from the brief."] },
           { t: "80 to 90", name: "Break", steps: [] },
