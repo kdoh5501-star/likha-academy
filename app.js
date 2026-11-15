@@ -88,6 +88,7 @@
     app.innerHTML =
       '<section class="hero"><p class="eyebrow">Free · three 1-month courses</p><h1>Learn Korean and video editing on your phone</h1>' +
       '<p class="lead">Korean and video editing, taught together. Each month is a complete 4-week course: Tuesday online and Saturday in person. Finish Month 1, then go on to Month 2 and Month 3.</p>' + weekPick() + "</section>" +
+      '<a class="otbanner card" href="#/ot"><span class="otdot">OT</span><span><b>Start here: Orientation</b><span class="sm muted">Why Korean, where it can take you, how the course works</span></span><span class="arr">›</span></a>' +
       '<div class="courses">' +
       '<a class="course ko" href="#/ko"><span class="cbig" aria-hidden="true">한</span><span class="ctag">Course 1</span><h2>Korean</h2><p>From Hangul to TOPIK I and EPS-TOPIK level. Tap any word to hear it.</p>' +
       '<span class="cstats"><b>' + totalWords + '</b> words and phrases · <b>3</b> months</span><span class="ccta">This week: ' + esc(t.ko) + " ›</span></a>" +
@@ -97,6 +98,24 @@
       '<a class="btn btn-accent" href="#/quiz/ko">Start 50 questions</a></section>' +
       '<p class="more"><a href="#/hw/' + c + '">Print this week\'s homework</a> · <a href="#/books">Textbooks and past papers</a></p>';
     bindWeekPick(home);
+  }
+
+
+  /* ---------- orientation ---------- */
+  function ot() {
+    app.innerHTML = crumbs([["Home", "#/"], ["Orientation"]]) +
+      '<section class="phero ko"><div><p class="eyebrow">Start here</p><h1>Orientation</h1><p class="lead">Why we learn Korean and video editing, where it can take you, and how the course works.</p></div></section>' +
+      '<section class="sec"><h2>Korean opens three doors</h2><div class="otgrid">' +
+      '<div class="card otc"><b>1</b><h3>Work from home</h3><p class="sm">Edit videos for Korean clients through LIKHA and get paid without leaving the Philippines.</p></div>' +
+      '<div class="card otc"><b>2</b><h3>Pass a Korean test</h3><p class="sm">TOPIK proves your Korean. EPS-TOPIK is the test you need for an E-9 work visa in Korea.</p></div>' +
+      '<div class="card otc"><b>3</b><h3>Go to Korea</h3><p class="sm">Our goal: the best students come to Korea for advanced training.</p></div></div></section>' +
+      '<section class="sec"><h2>Pay in Korea, 2026</h2><div class="otgrid two"><div class="card otn"><p class="n">₩10,320</p><p class="sm muted">Minimum pay per hour</p></div><div class="card otn"><p class="n">₩2,156,880</p><p class="sm muted">Minimum pay per month, full time</p></div></div><p class="sm muted" style="margin-top:8px">The same minimum applies to foreign workers. Most jobs need Korean.</p></section>' +
+      '<section class="sec"><h2>Start earning from home on LIKHA</h2><div class="otgrid two"><div class="card otn"><p class="n">₱500</p><p class="sm muted">per short video</p></div><div class="card otn"><p class="n">₱2,500</p><p class="sm muted">per 10-minute video</p></div></div><p class="sm muted" style="margin-top:8px">Example: 2 short videos a day for 20 days = ₱20,000 a month. Better Korean and better edits mean more jobs.</p></section>' +
+      '<section class="sec"><h2>Your path</h2><ol class="path"><li><b>Month 1</b> Basics</li><li><b>Month 2</b> Everyday and workplace Korean</li><li><b>Month 3</b> Exam and client ready</li><li><b>LIKHA</b> Paid freelance work</li><li><b>Korean test</b> TOPIK or EPS-TOPIK</li><li class="acc"><b>Korea</b> Training and work</li></ol><p class="sm muted">Each month ends with a test. Pass it to go on to the next month.</p></section>' +
+      '<section class="sec"><h2>How each week works</h2><div class="days"><div><b>Tuesday · online</b><span>Korean 3 hours, then video 3 hours. Watch live on YouTube.</span></div><div><b>Saturday · in person</b><span>8:00 to 11:00 Korean, 11:00 to 2:00 video. Up to 10 students.</span></div></div></section>' +
+      '<section class="sec"><h2>Bring every class</h2><ul class="plain"><li>Your phone, charged, with CapCut installed</li><li>Earphones, a notebook and a pen</li><li>Your homework sheets</li></ul></section>' +
+      '<section class="sec"><h2>Class rules</h2><ul class="plain"><li>Come on time. Tell us if you will miss a class.</li><li>Practice every day, even 20 minutes. Do the 50 quiz.</li><li>Mistakes are normal. Ask questions and help each other.</li><li>Use only your own clips or free footage.</li></ul></section>' +
+      '<div class="endcta card"><div><b>Ready?</b><p class="sm muted">Start with Month 1, Week 1.</p></div><a class="btn btn-accent" href="#/ko/1">Start Korean</a></div>';
   }
 
   /* ---------- Korean course ---------- */
@@ -313,6 +332,7 @@
     else if (h === "#/ko") { koHome(); setNav("ko"); }
     else if (h === "#/vid") { vidHome(); setNav("vid"); }
     else if (h === "#/books") { books(); setNav("ko"); }
+    else if (h === "#/ot") { ot(); setNav("home"); }
     else if (h === "#/quiz/ko/review") { document.body.classList.add("inquiz"); quiz("ko", "review", 0); setNav("quiz"); }
     else if ((m = h.match(/^#\/quiz\/(ko|vid)(?:\/(\d+)(\/only)?)?$/))) { var n = m[2] && week(+m[2]) ? +m[2] : cur(); document.body.classList.add("inquiz"); quiz(m[1], m[3] ? "only" : "daily", n); setNav(m[1] === "ko" ? "quiz" : "vid"); }
     else { home(); setNav("home"); }

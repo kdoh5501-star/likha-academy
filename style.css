@@ -251,3 +251,19 @@ main { padding-top: 16px; padding-bottom: 40px; outline: none; }
   .sheet { page-break-after: always; border: 0; }
   .checks input { appearance: none; -webkit-appearance: none; width: 16px; height: 16px; border: 1.5px solid #000; }
 }
+
+.otbanner { display: flex; align-items: center; gap: 14px; padding: 14px 16px; margin-bottom: 14px; border-color: var(--accent); }
+.otbanner > span:nth-child(2) { flex: 1; display: flex; flex-direction: column; }
+.otdot { flex: none; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 12px; background: var(--accent); color: #fff; font-weight: 900; }
+.otbanner .arr { font-size: 22px; color: var(--accent); font-weight: 700; }
+.otgrid { display: grid; gap: 10px; margin-top: 10px; }
+@media (min-width: 640px) { .otgrid { grid-template-columns: repeat(3, 1fr); } .otgrid.two { grid-template-columns: 1fr 1fr; } }
+.otc { padding: 16px; display: flex; flex-direction: column; gap: 4px; }
+.otc b { font-size: 28px; font-weight: 900; color: var(--accent); }
+.otc h3 { font-size: 17px; color: var(--brand); }
+.otn { padding: 16px; }
+.otn .n { font-size: 30px; font-weight: 900; color: var(--brand); }
+.path { display: grid; gap: 6px; margin: 10px 0; counter-reset: p; }
+.path li { display: flex; gap: 10px; align-items: baseline; padding: 10px 14px; background: var(--bg-2); border-radius: var(--r); font-size: 14px; }
+.path b { min-width: 92px; color: var(--brand); }
+.path li.acc { background: var(--accent); color: #fff; } .path li.acc b { color: #fff; }
